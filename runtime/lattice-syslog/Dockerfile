@@ -1,10 +1,9 @@
-FROM quay.io/simplicityitself/microux-base
+FROM java:openjdk-8u45-jdk
 
 MAINTAINER Simplicity Itself
 
-
 RUN apt-get update
-RUN apt-get install -y netcat-openbsd curl wget
+RUN apt-get install -y netcat-openbsd wget
 RUN mkdir /applocal
 
 WORKDIR /applocal
