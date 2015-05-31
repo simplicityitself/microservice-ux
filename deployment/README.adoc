@@ -1,0 +1,9 @@
+# Deployment Components
+
+These are used during the deployment process to encapsulate the various deployment mechanisms and give more flexibility in CI
+
+*TODO*
+
+* Lattice deployment base image
+* Flocker deployment base image
+

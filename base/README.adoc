@@ -1,0 +1,7 @@
+# Base Images
+
+The images that everything else uses.
+
+Maintained here so that we don't require external deps that may disappear randomly.
+
+Language runtimes, OS images etc
