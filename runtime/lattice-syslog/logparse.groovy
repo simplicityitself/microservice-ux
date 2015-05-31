@@ -1,4 +1,5 @@
 
+println "Starting log flower thingy"
 BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
 while(true) {
   def log = br.readLine()
