@@ -1,8 +1,8 @@
-FROM java:openjdk-8u45-jdk
+FROM quay.io:simplicityitself:microux-base
 
 MAINTAINER Simplicity Itself
 
-RUN apt-get update && apt-get install -y netcat
+RUN apt-get install -y netcat
 RUN mkdir /applocal
 RUN curl -s get.gvmtool.net | bash
 RUN chmod 755 ~/.gvm/bin/gvm-init.sh
