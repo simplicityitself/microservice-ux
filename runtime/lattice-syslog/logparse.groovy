@@ -1,6 +1,3 @@
-#!/usr/bin/env groovy
-
-@Grab(group='org.springframework', module='spring-orm', version='3.2.5.RELEASE')
 
 BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
 while(true) {

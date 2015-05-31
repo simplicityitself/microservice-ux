@@ -1,7 +1,4 @@
-#/bin/bash
-
-source ~/.gvm/bin/gvm-init.sh
-gvm use groovy
+#/usr/bin/env /bin/bash
 
 export DOPPLER_ADDR="ws://doppler.52.28.94.142.xip.io"
 
@@ -10,7 +7,7 @@ export DOPPLER_ADDR="ws://doppler.52.28.94.142.xip.io"
 SOURCE='./firehose_sample'
 
 NC="nc -4u logs2.papertrailapp.com 17572"
-SINK="./logparse.groovy"
+SINK="groovy-2.4.3/bin/groovy logparse.groovy"
 
 $SOURCE | grep source_type:\"APP\" | sed -E "s/.*[<](.*)[>]/\\1/" | $SINK | $NC
 #$SOURCE | grep source_type:\"APP\" | $SINK | $NC
