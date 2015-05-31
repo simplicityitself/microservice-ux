@@ -1,10 +1,14 @@
 # Microservices User eXperience
 
+Microservices is hard. This project makes it easy.
 
-## Runtime Components
+By curating the best of breed infrastructure, blending into a coherent deployment and adding a strong programming model, you can gain the benefits of Microservices, without the hassle.
 
-## Deployment Components
 
-## Base Images
+
+
+
+## Getting Started
+
 
 
