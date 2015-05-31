@@ -7,7 +7,9 @@ RUN mkdir /applocal
 RUN curl -s get.gvmtool.net | bash
 RUN chmod 755 ~/.gvm/bin/gvm-init.sh
 
-COPY * /applocal/
+COPY logsink.sh /applocal/
+COPY logparse.groovy /applocal/
+COPY firehose_sample /applocal/
 
 run mkdir /applocal/applocal
 
