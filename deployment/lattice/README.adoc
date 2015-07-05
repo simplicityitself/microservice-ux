@@ -1,0 +1,11 @@
+# Deployment to the Lattice infra
+
+Lattice is used to provide elastic management of stateless services.
+This docker container is used to wrap the deployment command of lattice so that it doesn't need to be deployed on the client.
+
+This is a fairly low level piece, and will likely be wrapped up by higher level concerns fairly quickly
+
+## Using the deployment container
+
+docker run [imagelocation] -e LTC_HOST=XXX -e LTC_PASS=XXX -e LTC_USER=XXX -e LTCARG="container_name image_name -m 200 --no-monitor"
+
