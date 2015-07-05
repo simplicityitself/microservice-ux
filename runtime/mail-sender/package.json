@@ -1,0 +1,22 @@
+{
+    "name": "muon-mail-sender",
+    "version": "0.0.2",
+    "private": true,
+    "scripts": {
+        "start": "node app.js",
+        "test": "./node_modules/mocha/bin/mocha -R spec"
+    },
+    "dependencies": {
+        "cors": "*",
+        "body-parser": "*",
+        "nconf": "~0.6",
+        "validator": "~3.x",
+        "nodemailer": "~1.2",
+        "muon-core": "*"
+    },
+    "devDependencies": {
+        "mocha": "*",
+        "assert": "*",
+        "sinon": "*"
+    }
+}

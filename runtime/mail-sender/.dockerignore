@@ -1,0 +1,7 @@
+.git
+.gradle
+.idea
+src
+gradle
+test
+deploy

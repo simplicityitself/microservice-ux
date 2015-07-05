@@ -1,0 +1,34 @@
+{
+  "id": "muon-mail-senderController",
+  "kind": "ReplicationController",
+  "apiVersion": "v1beta1",
+  "desiredState": {
+    "replicas": 1,
+    "replicaSelector": {
+      "name": "muon-mail-sender"
+    },
+    "podTemplate": {
+      "desiredState": {
+        "manifest": {
+          "version": "v1beta1",
+          "id": "muon-mail-sender",
+          "containers": [
+            {
+              "name": "muon-mail-sender",
+              "image": "quay.io/simplicityitself/muon-mail-sender:latest",
+              "cpu": 100,
+              "memory": 134217728,
+              "ports": [{"containerPort": 8080}]
+            }
+          ]
+        }
+      },
+      "labels": {
+        "name": "muon-mail-sender"
+      }
+    }
+  },
+  "labels": {
+    "name": "muon-mail-sender"
+  }
+}

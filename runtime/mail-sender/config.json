@@ -1,0 +1,19 @@
+{
+    "port": 8025,
+    "email": {
+        "host": "mail.doopnet.com",
+        "port": 25,
+        "secure": false,
+        "auth": {
+            "user": "graham-doopnet.com",
+            "pass": ""
+        },
+        "sender": {
+            "name": "Simplicity Itself",
+            "address": ""
+        },
+        "tls": {
+            "rejectUnauthorized": false
+        }
+    }
+}
