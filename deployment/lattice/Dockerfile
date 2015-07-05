@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM java:openjdk-8u45-jdk
 
 MAINTAINER Simplicity Itself
 
