@@ -12,7 +12,7 @@
         "nconf": "~0.6",
         "validator": "~3.x",
         "nodemailer": "~1.2",
-        "muon-core": "*"
+        "muon-core": "39.0.0-0"
     },
     "devDependencies": {
         "mocha": "*",
