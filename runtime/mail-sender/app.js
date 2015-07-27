@@ -4,19 +4,19 @@
  * Needs serious configuration love
  */
 
-var muonCore = require('muon-core');
-var muon = muonCore.muon('mailer');
-var config = require('./config');
-var mailer = require('./lib/mailer.js');
+var muonCore = require("./index.js");
 
-muon.addTransport(muonCore.amqpTransport);
-
+var amqp = muonCore.amqpTransport("amqp://localhost:5672");
+var muon = muonCore.muon('tck', amqp.getDiscovery(), [
+    "gateway", "email", "node"
+]);
+muon.addTransport(amqp);
 var events = [];
 
-muon.onPost("/email", "Post e-mail to a user", function(event, data, respond) {
+muon.resource.onCommand("/email", "Post email to a user", function(event, data, respond) {
     var res;
 
-    mailer.email(config.email, JSON.parse(data.toString())).send(function(info) {
+    mailer.email(config.email, data).send(function(info) {
         // success
         console.log('We have a success');
         console.dir(info);
@@ -25,8 +25,4 @@ muon.onPost("/email", "Post e-mail to a user", function(event, data, respond) {
 
         respond({failure: true, failed: error});
     });
-
-
-
-
 });
