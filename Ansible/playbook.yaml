@@ -1,0 +1,107 @@
+---
+- hosts: all
+  sudo: true
+
+  tasks:
+      # Run the equivalent of "apt-get update" as a separate step
+      - name: Do apt cache update
+        apt: update_cache=yes
+
+      #Remove old node packages
+      - name: Remove wrong Node
+        apt: name=node state=absent
+      - name: Remove old NodeJS
+        apt: name=nodejs state=absent
+
+      - name: Remove old node command if it still exists
+        command: sudo rm /usr/bin/node removes=/usr/bin/node
+
+      # Install required packages
+      - name: Install required packages
+        apt: name={{ item }} state=present
+        with_items:
+          - build-essential
+          - wget
+          - curl
+          - git
+          - nodejs
+          - npm
+
+      - name: Build symlink for node command
+        file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
+
+      #Autoremove old stuff
+      - name: Check if packages need to be autoremoved
+        command: apt-get --dry-run autoremove
+        register: check_autoremove
+        changed_when: False
+      - name: Autoremove unused packages
+        command: apt-get -y autoremove
+        when: "'packages will be REMOVED' in check_autoremove.stdout"
+
+      #download docker
+      - name: Download & install Docker
+        shell: wget -qO- https://get.docker.com/ | sh
+
+      #Install Clojure
+      - name: Install Clojure
+        get_url: url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein dest=/home/vagrant
+      - name: Change permissions
+        command: chmod +x lein
+      - name: Copy to destination
+        command: mv lein /usr/bin/
+
+      #Make dir for packages
+      - name: Make destination folder
+        file: path=/home/vagrant/muon state=directory
+
+      #Do git checkouts
+      - name: Get Microservice-ux
+        git: repo=https://github.com/simplicityitself/microservice-ux.git dest=/home/vagrant/muon
+      - name: Get Photon
+        git: repo=http://github.com/photonevents/photon.git dest=/home/vagrant/muon
+
+      #Install Muon-core
+      - name: Install Muon-core via NPM
+        command: sudo npm install -g muon-core
+
+      #Install Java
+      - name: Install add-apt-repostory
+        apt: name=software-properties-common state=latest
+
+      - name: Add Oracle Java Repository
+        apt_repository: repo='ppa:webupd8team/java'
+
+      - name: Accept Java 8 Licence
+        shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | tee /etc/oracle-java-8-licence-acceptance | /usr/bin/debconf-set-selections
+        args:
+          creates: /etc/oracle-java-8-licence-acceptance
+
+      - name: Install Oracle Java 8
+        apt: name={{item}} state=latest
+        with_items:
+          - oracle-java8-installer
+          - ca-certificates
+          - oracle-java8-set-default
+
+      #Chown muon - using 'command' instead of 'file' to avoid -R issues
+      - name: Ensure Vagrant owns everything
+        command: sudo chown -R vagrant:vagrant /home/vagrant
+
+      #Build Photon
+      - name: Build Photon
+        command: sudo ./build.sh
+        args:
+          chdir: /home/vagrant/muon/photon
+
+      #Build Photon in a Docker container
+      - name: Dockerise Photon
+        shell: sudo docker build --tag=muon/photon .
+
+      #Start RabbitMQ container
+      - name: RabbitMQ start
+        shell: sudo docker run -d --hostname muonhost --name rabbit-muon -e RABBITMQ_DEFAULT_USER=muon -e RABBITMQ_DEFAULT_PASS=microservices -p 15672:15672 -p 5672:5672 rabbitmq:3.5.4-management
+
+      #Start Photon in it's Docker container
+      - name: Start Photon
+        shell: sudo docker run `for OUTPUT in $(hostname -I | grep -oE "\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | egrep -v "10.0.2.15|172.17.42.1"); do echo "-e AMQP=$OUTPUT:5672 --add-host muonhost:$OUTPUT"; done;` --name "photon" -d "muon/photon"
