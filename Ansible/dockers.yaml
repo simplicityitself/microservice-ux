@@ -1,0 +1,39 @@
+---
+  #These tasks currently DON'T work due to a bug in Docker-Py that causes them to fail
+  #Once Docker-py works, we can replace the shell/command versions in the playbook.
+
+      # Install required packages
+      - name: Install required packages
+        apt: name=python-pip state=present
+
+      #Install docker.py - allows Ansible to manage Docker
+      - name: Ansible docker control
+        pip:
+          name: docker-py
+
+      #Start RabbitMQ container
+      - name: RabbitMQ start
+        docker:
+          image: "rabbitmq:3.5.4-management"
+          ports:
+            - "15672:15672"
+            - "5672:5672"
+          state: started
+          detach: true
+          hostname: muonhost
+          name: rabbit-muon
+          env:
+            RABBITMQ_DEFAULT_USER: "muon"
+            RABBITMQ_DEFAULT_PASS: "microservices"
+
+
+      #Start Photon in it's Docker container
+      - name: Start Photon
+        docker:
+          name: photon
+          detach: true
+          image: muon/photon
+          state: started
+          env:
+            AMQP: '{{ host_ip.stdout }}:5672'
+            add-host: 'muonhost:{{ host_ip.stdout }}'

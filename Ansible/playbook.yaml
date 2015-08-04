@@ -1,11 +1,14 @@
 ---
 - hosts: all
   sudo: true
+  environment:
+    MUON_ENV: test
+    MUON_CONFIG: test
 
   tasks:
       # Run the equivalent of "apt-get update" as a separate step
       - name: Do apt cache update
-        apt: update_cache=yes
+        apt: update_cache=yes cache_valid_time=3600
 
       #Remove old node packages
       - name: Remove wrong Node
@@ -15,6 +18,15 @@
 
       - name: Remove old node command if it still exists
         command: sudo rm /usr/bin/node removes=/usr/bin/node
+
+      #Autoremove old stuff
+      - name: Check if packages need to be autoremoved
+        command: apt-get --dry-run autoremove
+        register: check_autoremove
+        changed_when: False
+      - name: Autoremove unused packages
+        command: apt-get -y autoremove
+        when: "'packages will be REMOVED' in check_autoremove.stdout"
 
       # Install required packages
       - name: Install required packages
@@ -27,21 +39,15 @@
           - nodejs
           - npm
 
+      #Symlinks
       - name: Build symlink for node command
         file: src=/usr/bin/nodejs dest=/usr/bin/node state=link
 
-      #Autoremove old stuff
-      - name: Check if packages need to be autoremoved
-        command: apt-get --dry-run autoremove
-        register: check_autoremove
-        changed_when: False
-      - name: Autoremove unused packages
-        command: apt-get -y autoremove
-        when: "'packages will be REMOVED' in check_autoremove.stdout"
-
-      #download docker
+      #Download & install Docker
       - name: Download & install Docker
         shell: wget -qO- https://get.docker.com/ | sh
+        args:
+          creates: /usr/bin/docker
 
       #Install Clojure
       - name: Install Clojure
@@ -57,9 +63,9 @@
 
       #Do git checkouts
       - name: Get Microservice-ux
-        git: repo=https://github.com/simplicityitself/microservice-ux.git dest=/home/vagrant/muon
+        git: repo=https://github.com/simplicityitself/microservice-ux.git dest=/home/vagrant/muon/microservice-ux
       - name: Get Photon
-        git: repo=http://github.com/photonevents/photon.git dest=/home/vagrant/muon
+        git: repo=http://github.com/photonevents/photon.git dest=/home/vagrant/muon/photon
 
       #Install Muon-core
       - name: Install Muon-core via NPM
@@ -88,20 +94,46 @@
       - name: Ensure Vagrant owns everything
         command: sudo chown -R vagrant:vagrant /home/vagrant
 
+      #Figure out IP address of Vagrant box
+      - name: Trying to get IP address
+        shell: 'hostname -I | grep -oE "\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | egrep -v "10.0.2.15|172.17.42.1"'
+        register: host_ip
+
+      #Update Vagrant box host file
+      - name: Update /etc/hosts
+        lineinfile: dest=/etc/hosts line='{{host_ip.stdout}} muonhost'
+
       #Build Photon
       - name: Build Photon
-        command: sudo ./build.sh
+        shell: sudo ./build.sh
         args:
           chdir: /home/vagrant/muon/photon
+          creates: app-standalone.jar
 
       #Build Photon in a Docker container
       - name: Dockerise Photon
         shell: sudo docker build --tag=muon/photon .
+        args:
+          chdir: /home/vagrant/muon/photon
 
-      #Start RabbitMQ container
-      - name: RabbitMQ start
+      #Hack to kill current RabbitMQ if it has already started
+      - name: Kill RabbitMQ
+        docker:
+          state: absent
+          name: rabbit-muon
+          image: rabbitmq:3.5.4-management
+
+      #Start RabbitMQ via command line - issue with docker-py
+      - name: Start RabbitMQ in docker
         shell: sudo docker run -d --hostname muonhost --name rabbit-muon -e RABBITMQ_DEFAULT_USER=muon -e RABBITMQ_DEFAULT_PASS=microservices -p 15672:15672 -p 5672:5672 rabbitmq:3.5.4-management
 
-      #Start Photon in it's Docker container
+      #Hack to kill current Photon if it has already started - until docker-py issues are resolved
+      - name: Kill Photon
+        docker:
+          state: absent
+          name: photon
+          image: muon/photon
+
+      #Start Photon via command line
       - name: Start Photon
-        shell: sudo docker run `for OUTPUT in $(hostname -I | grep -oE "\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | egrep -v "10.0.2.15|172.17.42.1"); do echo "-e AMQP=$OUTPUT:5672 --add-host muonhost:$OUTPUT"; done;` --name "photon" -d "muon/photon"
+        shell:  docker run -e AMQP={{host_ip.stdout}}:5672 --add-host muonhost:{{host_ip.stdout}} --name "photon" -d "muon/photon"
