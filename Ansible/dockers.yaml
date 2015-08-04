@@ -2,15 +2,6 @@
   #These tasks currently DON'T work due to a bug in Docker-Py that causes them to fail
   #Once Docker-py works, we can replace the shell/command versions in the playbook.
 
-      # Install required packages
-      - name: Install required packages
-        apt: name=python-pip state=present
-
-      #Install docker.py - allows Ansible to manage Docker
-      - name: Ansible docker control
-        pip:
-          name: docker-py
-
       #Start RabbitMQ container
       - name: RabbitMQ start
         docker:

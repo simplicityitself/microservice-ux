@@ -38,6 +38,12 @@
           - git
           - nodejs
           - npm
+          - python-pip
+
+      #Install docker.py - allows Ansible to manage Docker containers - issues with creates
+      - name: Ansible docker control
+        pip:
+          name: docker-py
 
       #Symlinks
       - name: Build symlink for node command
@@ -69,7 +75,10 @@
 
       #Install Muon-core
       - name: Install Muon-core via NPM
-        command: sudo npm install -g muon-core
+        npm:
+          name: muon-core
+          global: yes
+          state: latest
 
       #Install Java
       - name: Install add-apt-repostory
@@ -116,24 +125,30 @@
         args:
           chdir: /home/vagrant/muon/photon
 
-      #Hack to kill current RabbitMQ if it has already started
-      - name: Kill RabbitMQ
+      #Hack to kill current RabbitMQ if it has already started - until docker-py issues are resolved
+      - name: Kill current RabbitMQ container if it exists
         docker:
           state: absent
           name: rabbit-muon
           image: rabbitmq:3.5.4-management
 
-      #Start RabbitMQ via command line - issue with docker-py
+      #Start RabbitMQ via command line - until docker-py issues are resolved
       - name: Start RabbitMQ in docker
         shell: sudo docker run -d --hostname muonhost --name rabbit-muon -e RABBITMQ_DEFAULT_USER=muon -e RABBITMQ_DEFAULT_PASS=microservices -p 15672:15672 -p 5672:5672 rabbitmq:3.5.4-management
 
       #Hack to kill current Photon if it has already started - until docker-py issues are resolved
-      - name: Kill Photon
+      - name: Kill current Photon container if it exists
         docker:
           state: absent
           name: photon
           image: muon/photon
 
-      #Start Photon via command line
+      #Start Photon via command line - until docker-py issues are resolved
       - name: Start Photon
         shell:  docker run -e AMQP={{host_ip.stdout}}:5672 --add-host muonhost:{{host_ip.stdout}} --name "photon" -d "muon/photon"
+
+
+      #Display info to user
+      - name: Display info
+        debug:
+          msg: "The server is now running on {{host_ip.stdout}}. RabbitMQ admin is available on {{host_ip.stdout}}:15672."
