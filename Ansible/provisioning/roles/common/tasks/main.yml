@@ -1,0 +1,147 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+  # Run the equivalent of "apt-get update" as a separate step
+  - name: Do apt cache update
+    apt: update_cache=yes cache_valid_time=3600
+    tags: base
+
+  #Remove old node packages
+  - name: Remove wrong Node
+    apt: name=node state=absent
+    tags: base
+
+  - name: Remove old NodeJS
+    apt: name=nodejs state=absent
+    tags: base
+
+  - name: Remove old node command if it still exists
+    command: sudo rm /usr/bin/node removes=/usr/bin/node
+    tags: base
+
+  #Autoremove old stuff
+  - name: Check if packages need to be autoremoved
+    command: apt-get --dry-run autoremove
+    register: check_autoremove
+    changed_when: False
+    tags: base
+
+  - name: Autoremove unused packages
+    command: apt-get -y autoremove
+    when: "'packages will be REMOVED' in check_autoremove.stdout"
+    tags: base
+
+  # Install required packages
+  - name: Install required packages
+    apt: name={{ item }} state=present
+    tags: base
+    with_items:
+      - build-essential
+      - wget
+      - curl
+      - git
+      - nodejs
+      - npm
+      - python-pip
+
+  #Install docker.py - allows Ansible to manage Docker containers - issues with creates
+  - name: Ansible docker control
+    pip:
+      name: docker-py
+    tags: base
+
+  #Symlinks
+  - name: Build symlink for node command
+    file:
+      src: /usr/bin/nodejs
+      dest: /usr/bin/node
+      state: link
+    tags: base
+
+  #Download & install Docker
+  - name: Download & install Docker
+    shell: wget -qO- https://get.docker.com/ | sh
+    args:
+      creates: /usr/bin/docker
+    tags: base
+
+  #Install Clojure
+  - name: Install Clojure
+    get_url: url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein dest=/home/vagrant
+    tags: base
+
+  - name: Change permissions
+    command: chmod +x lein
+    tags: base
+
+  - name: Copy to destination
+    command: mv lein /usr/bin/
+    tags: base
+
+  #Install Java
+  - name: Install add-apt-repostory
+    apt:
+      name: software-properties-common
+      state: latest
+    tags: base
+
+  - name: Add Oracle Java Repository
+    apt_repository: repo='ppa:webupd8team/java'
+    tags: base
+
+  - name: Accept Java 8 Licence
+    shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | tee /etc/oracle-java-8-licence-acceptance | /usr/bin/debconf-set-selections
+    args:
+      creates: /etc/oracle-java-8-licence-acceptance
+    tags: base
+
+  - name: Install Oracle Java 8
+    apt: name={{item}} state=latest
+    with_items:
+      - oracle-java8-installer
+      - ca-certificates
+      - oracle-java8-set-default
+    tags: base
+
+  #Make dir for packages
+  - name: Make destination folder
+    file:
+      path: /home/vagrant/muon
+      state: directory
+    tags: base
+
+  #Do git checkouts
+  - name: Get Microservice-ux
+    git: repo=https://github.com/simplicityitself/microservice-ux.git dest=/home/vagrant/muon/microservice-ux
+    tags: asap
+  - name: Get Photon
+    git: repo=http://github.com/photonevents/photon.git dest=/home/vagrant/muon/photon
+    tags: base
+
+  #Install Muon-core
+  - name: Install Muon-core via NPM
+    npm: >
+      name=muon-core
+      global=yes
+      state=latest
+    tags: base
+
+  #Build Photon
+  - name: Build Photon
+    shell: sudo ./build.sh
+    args:
+      chdir: /home/vagrant/muon/photon
+      creates: app-standalone.jar
+    tags: base
+
+  #Build Photon in a Docker container
+  - name: Dockerise Photon
+    shell: sudo docker build --tag=muon/photon .
+    args:
+      chdir: /home/vagrant/muon/photon
+    tags: base
+
+  #Chown directory - using 'command' instead of 'file' to avoid -R issues
+  - name: Ensure Vagrant owns everything
+    command: sudo chown -R vagrant:vagrant /home/vagrant
+    tags: base

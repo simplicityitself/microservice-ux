@@ -1,0 +1,64 @@
+---
+  # This playbook contains plays that will be run on ASAP nodes.
+
+  #Figure out IP address of Vagrant box
+  - name: Trying to get IP address
+    shell: 'hostname -I | grep -oE "\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | egrep -v "10.0.2.15|172.17.42.1"'
+    register: host_ip
+    tags: asap
+
+  #Update Vagrant box host file
+  - name: Update /etc/hosts
+    lineinfile:
+      dest: /etc/hosts
+      line: '{{host_ip.stdout}} {{hostname}}'
+    tags: asap
+
+  #Set Environment variables
+  - name: Set Muon_ENV mode
+    lineinfile:
+      dest: /etc/environment
+      line: 'MUON_ENV={{muon_env}}'
+    tags: asap
+  - name: Set Muon_CONFIG mode
+    lineinfile:
+      dest: /etc/environment
+      line: 'MUON_CONFIG={{muon_config}}'
+    tags: asap
+  - name: Set AMQP Server
+    lineinfile:
+      dest: /etc/environment
+      line: 'AMQP_SERVER={{host_ip.stdout}}:{{amqp_port}}'
+    tags: asap
+
+  #Hack to kill current RabbitMQ if it has already started - until docker-py issues are resolved
+  - name: Kill current RabbitMQ container if it exists
+    docker:
+      state: absent
+      name: rabbit-muon
+      image: rabbitmq:3.5.4-management
+    tags: asap
+
+  #Hack to kill current Photon if it has already started - until docker-py issues are resolved
+  - name: Kill current Photon container if it exists
+    docker:
+      state: absent
+      name: photon
+      image: muon/photon
+    tags: asap
+
+  #Start RabbitMQ via command line - until docker-py issues are resolved
+  - name: Start RabbitMQ in docker
+    shell: sudo docker run -d --hostname muonhost --name rabbit-muon -e RABBITMQ_DEFAULT_USER={{amqp_user}} -e RABBITMQ_DEFAULT_PASS={{amqp_pass}} -p {{amqp_admin}}:{{amqp_admin}} -p {{amqp_port}}:{{amqp_port}} rabbitmq:3.5.4-management
+    tags: asap
+
+  #Start Photon via command line - until docker-py issues are resolved
+  - name: Start Photon
+    shell:  docker run -e AMQP={{host_ip.stdout}}:{{amqp_port}} --add-host muonhost:{{host_ip.stdout}} --name "photon" -d "muon/photon"
+    tags: asap
+
+  #Display info to user
+  - name: Display info
+    debug:
+      msg: "The server is now running on {{host_ip.stdout}}. RabbitMQ admin is available on {{host_ip.stdout}}:{{amqp_admin}}."
+    tags: asap
