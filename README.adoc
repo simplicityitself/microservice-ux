@@ -8,7 +8,9 @@ Building, Deploying and Maintaining Polyglot Microservices is *hard*. This proje
 
 By curating ***best-of-breed infrastructure*** and blending in a ***coherent deployment and strong programming model***, Microservices UX helps you quickly ***gain the benefits of Microservices without the hassle***.
 
-## Getting Started
+## Your First Time with *Microservices UX*
+
+It's never easy on your first time ... but we've done our best to make it as easy as possible to get up and running and using Microservices UX as quickly as possible. 
 
 ### Prerequisites
 
