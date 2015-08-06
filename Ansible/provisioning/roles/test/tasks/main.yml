@@ -54,7 +54,7 @@
 
   #Start Photon via command line - until docker-py issues are resolved
   - name: Start Photon
-    shell:  docker run -e AMQP={{host_ip.stdout}}:{{amqp_port}} --add-host muonhost:{{host_ip.stdout}} --name "photon" -d "muon/photon"
+    shell:  docker run -e AMQP={{host_ip.stdout}}:{{amqp_port}} --add-host muonhost:{{host_ip.stdout}} --name "photon" -d -p 3000:3000 "muon/photon"
     tags: asap
 
   #Display info to user

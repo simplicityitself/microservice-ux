@@ -5,6 +5,7 @@ Vagrant.configure(2) do |config|
       ansible.playbook = "provisioning/asap_test.yml"
     end
 
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
   config.vm.network "forwarded_port", guest: 15672, host: 15672
   config.vm.network "forwarded_port", guest: 5672, host: 5672
 
