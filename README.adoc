@@ -29,6 +29,7 @@ Once you have the prerequisites installed open a terminal window use GIT to clon
 
 Change directory to microservices-ux/Ansible and issue the following command:
 
+  > cd microservice-ux/Ansible
   > vagrant up
   
 Make a coffee while Vagrant and Ansible setup and deploy the Microservices UX locally on your machine.
@@ -36,11 +37,11 @@ Make a coffee while Vagrant and Ansible setup and deploy the Microservices UX lo
   > vagrant ssh
   > root@vagrant-ubuntu-trusty-64: muon -d local discover
    [ { identifier: 'photon',
-  `  resourceConnections: [ 'amqp://muon:microservices@muonhost' ],
+    resourceConnections: [ 'amqp://muon:microservices@muonhost' ],
     streamConnections: [ 'amqp://muon:microservices@muonhost' ],
     tags: [ 'photon', 'helios' ] },
    { identifier: 'cli',
     tags: [ [] ],
     resourceConnections: [ 'amqp://muon:microservices@172.28.128.3:5672' ],
-    stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]`
+    stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
 
