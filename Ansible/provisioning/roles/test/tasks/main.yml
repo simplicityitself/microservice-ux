@@ -43,7 +43,30 @@
         
   - name: create portal assets
     copy: src=nginx/ dest=/usr/share/nginx/html owner=root group=root mode=0644
-    tags: nginx     
+    tags: nginx 
+    
+  - name: create muon restart script
+    copy: src=platform/muon-platform dest=/etc/init.d/muon-platform owner=root group=root mode=0774
+    tags: nginx   
+    
+  - name: Build symlink for muon restart
+    file:
+      src: /etc/init.d/muon-platform
+      dest:  /etc/rc5.d/S99muon-platform
+      state: link
+    tags: base  
+    
+  - name: Make .muon home config folder
+    file:
+      path: /home/vagrant/.muon
+      state: directory
+    tags: base    
+    
+  - name: muon-core config file
+    template: src=muon-core/discovery.json dest=/home/vagrant/.muon owner=vagrant group=vagrant mode=0644
+    tags: base    
+    
+      
 
   #Hack to kill current RabbitMQ if it has already started - until docker-py issues are resolved
   - name: Kill current RabbitMQ container if it exists

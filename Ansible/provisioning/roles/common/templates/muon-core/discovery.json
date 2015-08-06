@@ -1,0 +1,1 @@
+[{"name":"local","type":"amqp","uri":"amqp://muon:microservices@{{host_ip.stdout}}:5672"}]

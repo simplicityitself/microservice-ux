@@ -126,6 +126,8 @@
     tags: asap
   - name: Get Photon
     git: repo=http://github.com/photonevents/photon.git dest=/home/vagrant/muon/photon
+    args:    
+        force: yes
     tags: base
 
   #Install Muon-core
@@ -135,6 +137,8 @@
       global=yes
       state=latest
     tags: base
+    
+   
 
   #Build Photon
   - name: Build Photon
