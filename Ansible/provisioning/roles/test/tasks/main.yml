@@ -35,6 +35,15 @@
       dest: /etc/environment
       line: 'AMQP_URL=amqp://{{amqp_user}}:{{amqp_pass}}@{{host_ip.stdout}}:{{amqp_port}}'
     tags: asap
+    
+    
+  - name: create portal index page from template
+    template: src=nginx/index.html dest=/usr/share/nginx/html/index.html owner=root group=root mode=0644
+    tags: nginx   
+        
+  - name: create portal assets
+    copy: src=nginx/ dest=/usr/share/nginx/html owner=root group=root mode=0644
+    tags: nginx     
 
   #Hack to kill current RabbitMQ if it has already started - until docker-py issues are resolved
   - name: Kill current RabbitMQ container if it exists
@@ -62,8 +71,8 @@
     shell:  docker run -e AMQP={{host_ip.stdout}}:{{amqp_port}} --add-host muonhost:{{host_ip.stdout}} --name "photon" -d -p 3000:3000 "muon/photon"
     tags: asap
 
-  #Display info to user
-  - name: Display info
+    
+  - name: Display Instructions
     debug:
-      msg: "The server is now running on {{host_ip.stdout}}. RabbitMQ admin is available on {{host_ip.stdout}}:{{amqp_admin}}."
-    tags: asap
+      msg: "########## Your platform is served! open http://{{host_ip.stdout}}/ ##########"
+    tags: motd

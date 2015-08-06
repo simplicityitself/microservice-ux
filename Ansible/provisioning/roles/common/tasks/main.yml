@@ -1,6 +1,13 @@
 ---
 # This playbook contains common plays that will be run on all nodes.
 
+
+  - name: Display info
+    debug:
+      msg: "########## Server being flame grilled with ansible... Go get a tea (or coffee) and come back in 15 mins ##########"
+    tags: motd
+
+
   # Run the equivalent of "apt-get update" as a separate step
   - name: Do apt cache update
     apt: update_cache=yes cache_valid_time=3600
@@ -43,6 +50,9 @@
       - nodejs
       - npm
       - python-pip
+      - nginx
+      
+     
 
   #Install docker.py - allows Ansible to manage Docker containers - issues with creates
   - name: Ansible docker control
