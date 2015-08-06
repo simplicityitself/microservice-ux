@@ -30,6 +30,11 @@
       dest: /etc/environment
       line: 'AMQP_SERVER={{host_ip.stdout}}:{{amqp_port}}'
     tags: asap
+  - name: Set AMQP url
+    lineinfile:
+      dest: /etc/environment
+      line: 'AMQP_URL=amqp://{{amqp_user}}:{{amqp_pass}}@{{host_ip.stdout}}:{{amqp_port}}'
+    tags: asap
 
   #Hack to kill current RabbitMQ if it has already started - until docker-py issues are resolved
   - name: Kill current RabbitMQ container if it exists
