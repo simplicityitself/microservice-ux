@@ -47,7 +47,7 @@ Once you have the prerequisites installed open a terminal window use GIT to clon
   
   
   
-### exploring under the hood  
+### Exploring under the hood  
 
 using the muon command to disover
   
@@ -63,7 +63,7 @@ using the muon command to disover
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
     
     
-##### Checking Photon
+### Checking Photon
     
 Check projection loaded in to photon
     
