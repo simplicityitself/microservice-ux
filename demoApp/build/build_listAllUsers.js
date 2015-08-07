@@ -17,7 +17,7 @@ var myConfig = {};
   myConfig.amqp_server = 'amqp://muon:microservices@localhost:5672';
   myConfig.servicename = "demoapp";
   myConfig.eventstore = "photon";
-  myConfig.useport = 8080;
+  myConfig.useport = 3010;
 
 var amqp = muonCore.amqpTransport(myConfig.amqp_server);
 
