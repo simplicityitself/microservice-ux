@@ -1,0 +1,12 @@
+{
+  "name": "SimpleDemoApp",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "muon-core": "^39.1.0-0",
+    "uuid": "^2.0.1"
+  }
+}
