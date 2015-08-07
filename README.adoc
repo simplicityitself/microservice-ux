@@ -31,15 +31,17 @@ To get up and running with Microserives UX you'll need the following tools insta
   > vagrant up
  
  
-### Youre done! Navigate to the muon platform portal page to take a test drive around the platform
+### Youre done! Time to Kick the tyres!
+
+Navigate to the muon platform portal page to take a test drive around the platform's core services.
 
   > http://localhost:8080/ 
 
 
 
-### Running Demo Microservices UX Locally for the First Time
+### Now, do somethign useful! 
 
-Once you have the prerequisites installed open a terminal window use GIT to clone this repository using:
+Next, lets get a demo mciroservices app deployed and running.
 
   > git clone https://github.com/simplicityitself/microservice-ux
   > cd microservice-ux/demoApp
@@ -47,7 +49,7 @@ Once you have the prerequisites installed open a terminal window use GIT to clon
   
   
   
-### Exploring under the hood  
+### And there's more! Exploring under the hood...  
 
 using the muon command to disover
   
@@ -63,7 +65,7 @@ using the muon command to disover
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
     
     
-### Checking Photon
+### Checking Photon Projections
     
 Check projection loaded in to photon
     
