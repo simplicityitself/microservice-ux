@@ -6,6 +6,8 @@
     debug:
       msg: "########## Server being flame grilled with ansible... Go get a tea (or coffee) and come back in 15 mins ##########"
     tags: motd
+    
+  - hostname: name=muonhost    
 
 
   # Run the equivalent of "apt-get update" as a separate step

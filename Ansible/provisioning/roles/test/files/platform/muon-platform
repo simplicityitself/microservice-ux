@@ -1,13 +1,15 @@
 #!/bin/sh
 
 
+echo Committing docker image changes for RabbitMQ transport and Photon Event Store...
+sudo docker commit photon muon/photon 
+sudo docker commit rabbit-muon muon/rabbit-muon 
 
-HOSTIP=`hostname -I | grep -oE "\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | egrep -v "10.0.2.15|172.17.42.1"`
+echo Stopping RabbitMQ transport and Photon Event Store...
+docker stop photon
+docker stop rabbit-muon
 
 
-
-sudo docker ps -a | grep -v CONTAINER | awk '{print $1}' | xargs --no-run-if-empty docker rm -f
-
-sudo docker run -d --hostname muonhost --name rabbit-muon -e RABBITMQ_DEFAULT_USER=muon -e RABBITMQ_DEFAULT_PASS=microservices -p 15672:15672 -p 5672:5672 rabbitmq:3.5.4-management
-
-sudo docker run -e AMQP=$HOSTIP:5672 --add-host muonhost:$HOSTIP --name "photon" -p 3000:3000 -d "muon/photon"
+echo Starting RabbitMQ transport and Photon Event Store...
+docker start rabbit-muon
+docker start photon

@@ -49,12 +49,30 @@
     copy: src=platform/muon-platform dest=/etc/init.d/muon-platform owner=root group=root mode=0774
     tags: nginx   
     
+  - name: create muon convenience scripts
+    copy: src=scripts/ dest=/home/vagrant/muon/bin owner=vagrant group=vagrant mode=0774
+    tags: nginx      
+    
+  - name: Build symlink for muon restart
+    file:
+      src: /etc/init.d/muon-platform
+      dest:  /etc/rc2.d/S99muon-platform
+      state: link
+    tags: base  
+    
   - name: Build symlink for muon restart
     file:
       src: /etc/init.d/muon-platform
       dest:  /etc/rc5.d/S99muon-platform
       state: link
     tags: base  
+    
+  - name: Build symlink for muon restart
+    file:
+      src: /etc/init.d/muon-platform
+      dest:  /etc/rc3.d/S99muon-platform
+      state: link
+    tags: base     
     
   - name: Make .muon home config folder
     file:
@@ -97,5 +115,5 @@
     
   - name: Display Instructions
     debug:
-      msg: "########## Your platform is served! open http://{{host_ip.stdout}}/ ##########"
+      msg: "########## Your platform is served! Point your broswer to: http://loclahost:8080/ ##########"
     tags: motd

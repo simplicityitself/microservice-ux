@@ -44,4 +44,17 @@ Make a coffee while Vagrant and Ansible setup and deploy the Microservices UX lo
     tags: [ [] ],
     resourceConnections: [ 'amqp://muon:microservices@172.28.128.3:5672' ],
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
+    
+    
+    ### Going under the hood
+    
+    ***Navigate to the muon paltform portal page***
+
+    > http://localhost:8080/
+    
+    ##### Checking Photon
+    
+    ***Check projection loaded in to photon***
+    
+    > http://localhost:3000/projection-keys
 
