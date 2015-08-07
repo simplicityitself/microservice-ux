@@ -42,6 +42,8 @@ To get up and running with Microserives UX you'll need the following tools insta
 Once you have the prerequisites installed open a terminal window use GIT to clone this repository using:
 
   > git clone https://github.com/simplicityitself/microservice-ux
+  > cd microservice-ux/demoApp
+  > Readme.adoc
   
   
   
