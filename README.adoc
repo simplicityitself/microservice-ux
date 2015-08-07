@@ -20,13 +20,9 @@ To get up and running with Microserives UX you'll need the following tools insta
 * https://www.vagrantup.com[Vagrant]
 * A Virtualisation Provider such as https://www.virtualbox.org:[VirtualBox] for Vagrant to use.
 
-### Running Microservices UX Locally for the First Time
 
-Once you have the prerequisites installed open a terminal window use GIT to clone this repository using:
 
-  > git clone https://github.com/simplicityitself/microservice-ux
-
-Change directory to microservices-ux/platform-demo and issue the following command:
+### Get the base platform running locally within a vagrant virtual machine
 
   > mkdir muon-platform-demo
   > cd muon-platform-demo
@@ -38,6 +34,16 @@ Change directory to microservices-ux/platform-demo and issue the following comma
 ***Navigate to the muon platform portal page***
 
   > http://localhost:8080/ 
+
+
+
+### Running Demo Microservices UX Locally for the First Time
+
+Once you have the prerequisites installed open a terminal window use GIT to clone this repository using:
+
+  > git clone https://github.com/simplicityitself/microservice-ux
+  
+  
   
 ### exploring under the hood  
 
