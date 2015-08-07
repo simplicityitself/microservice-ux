@@ -35,7 +35,7 @@ Change directory to microservices-ux/platform-demo and issue the following comma
   > vagrant up
  
  
- ***Navigate to the muon paltform portal page***
+***Navigate to the muon platform portal page***
 
   > http://localhost:8080/ 
   
