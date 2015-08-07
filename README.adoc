@@ -31,7 +31,7 @@ To get up and running with Microserives UX you'll need the following tools insta
   > vagrant up
  
  
-***Navigate to the muon platform portal page***
+### Youre done! Navigate to the muon platform portal page to take a test drive around the platform
 
   > http://localhost:8080/ 
 
