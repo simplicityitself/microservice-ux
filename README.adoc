@@ -65,9 +65,9 @@ using the muon command to disover
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
     
     
-### Checking Photon Projections
-    
-Check projection loaded in to photon
+### Photon Event Store
+
+Check projection loaded in to photon:
     
   > http://localhost:3000/projection-keys
 
