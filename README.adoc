@@ -29,7 +29,7 @@ Once you have the prerequisites installed open a terminal window use GIT to clon
 
 Change directory to microservices-ux/Ansible and issue the following command:
 
-  > cd microservice-ux/Ansible
+  > cd microservice-ux/platform-demo
   > vagrant up
   
 Make a coffee while Vagrant and Ansible setup and deploy the Microservices UX locally on your machine.
