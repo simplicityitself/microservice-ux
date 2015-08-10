@@ -53,8 +53,10 @@ function checkProjection(projName, payload){
 
       var thisData = keyArray[i];
 
+      debug(thisData);
+
       //check for matching name
-      if (thisData.sym.name == projName) {
+      if (thisData == projName) {
 
         debug('Found a matching Projection');
         //change flag
@@ -77,7 +79,7 @@ buildProjection = function(){
   var projName = "UserInfo";
 
   //actual projection reduction function
-  var projString = "function eventHandler(state, event) {  var user = event.payload.user;  if (!(user.id in state)) {state[user.id] = {};  }  state[user.id].id = user.id;  state[user.id].fullname = user.first + \' \' + user.last;  if(user.last.length > 8) {state[user.id].username = (user.last.substring + user.first.charAt(0)).toLowerCase();  }  state[user.id].username = (user.last + user.first.charAt(0)).toLowerCase();  state[user.id].first = user.first;  state[user.id].last = user.last;  state[user.id].password = user.password;  return state;}";
+  var projString = "function eventHandler(state, event) {  var user = event.payload.user;  if (!(user.id in state)) {state[user.id] = {};  }  state[user.id].id = user.id;  state[user.id].fullname = user.first + \' \' + user.last;  if(user.last.length > 8) {state[user.id].username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();  }  state[user.id].username = (user.last + user.first.charAt(0)).toLowerCase();  state[user.id].first = user.first;  state[user.id].last = user.last;  state[user.id].password = user.password;  return state;}";
 
   //Define projection
   var projConf = {"projection-name" : projName,

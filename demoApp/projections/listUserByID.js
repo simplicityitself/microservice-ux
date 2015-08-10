@@ -10,7 +10,7 @@ function eventHandler(state, event) {
   state[user.id].fullname = user.first + ' ' + user.last;
 
   if(user.last.length > 8) {
-    state[user.id].username = (user.last.substring + user.first.charAt(0)).toLowerCase();
+    state[user.id].username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();
   }
 
   state[user.id].username = (user.last + user.first.charAt(0)).toLowerCase();
