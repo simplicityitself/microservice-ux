@@ -1,0 +1,21 @@
+---
+# This playbook configures a base muon paltform as a test environment
+# Builds base box with NodeJS, Java, Clojure, Muon & Photon
+# Configures environment based on variables, starts Photon, RabbitMQ et al.
+- name: apply common configuration to all nodes
+  hosts: all
+  sudo: true
+  remote_user: vagrant
+
+  roles:
+    - dev-vm
+
+
+# Installs demo user microservices
+- name: apply base platform to nodes
+  hosts: all
+  sudo: true
+  remote_user: vagrant
+
+  roles:
+    - muon-platform

@@ -1,13 +1,13 @@
 ---
-# This playbook contains common plays that will be run on all nodes.
-
+# This playbook contains common plays that will be run on all development server nodes in order to install base development tools such as
+# language run times and build tools.
 
   - name: Display info
     debug:
-      msg: "########## Server being flame grilled with ansible... Go get a tea (or coffee) and come back in 15 mins ##########"
+      msg: "***** Server being flame grilled with ansible... Go get a tea (or coffee) and come back in 15 mins *****"
     tags: motd
-    
-  - hostname: name=muonhost    
+
+  - hostname: name=muonhost
 
 
   # Run the equivalent of "apt-get update" as a separate step
@@ -15,7 +15,7 @@
     apt: update_cache=yes cache_valid_time=3600
     tags: base
 
-  #Remove old node packages
+  # Remove old node packages
   - name: Remove wrong Node
     apt: name=node state=absent
     tags: base
@@ -28,7 +28,7 @@
     command: sudo rm /usr/bin/node removes=/usr/bin/node
     tags: base
 
-  #Autoremove old stuff
+  # Autoremove old stuff
   - name: Check if packages need to be autoremoved
     command: apt-get --dry-run autoremove
     register: check_autoremove
@@ -53,16 +53,16 @@
       - npm
       - python-pip
       - nginx
-      
-     
 
-  #Install docker.py - allows Ansible to manage Docker containers - issues with creates
+
+
+  # Install docker.py - allows Ansible to manage Docker containers - issues with creates
   - name: Ansible docker control
     pip:
       name: docker-py
     tags: base
 
-  #Symlinks
+  # Symlinks
   - name: Build symlink for node command
     file:
       src: /usr/bin/nodejs
@@ -70,14 +70,14 @@
       state: link
     tags: base
 
-  #Download & install Docker
+  # Download & install Docker
   - name: Download & install Docker
     shell: wget -qO- https://get.docker.com/ | sh
     args:
       creates: /usr/bin/docker
     tags: base
 
-  #Install Clojure
+  # Install Clojure
   - name: Install Clojure
     get_url: url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein dest=/home/vagrant
     tags: base
@@ -90,7 +90,7 @@
     command: mv lein /usr/bin/
     tags: base
 
-  #Install Java
+  # Install Java
   - name: Install add-apt-repostory
     apt:
       name: software-properties-common
@@ -115,49 +115,45 @@
       - oracle-java8-set-default
     tags: base
 
-  #Make dir for packages
+  # Make dir for packages
   - name: Make destination folder
     file:
       path: /home/vagrant/muon
       state: directory
     tags: base
 
-  #Do git checkouts
-  - name: Get Microservice-ux
-    git: repo=https://github.com/simplicityitself/microservice-ux.git dest=/home/vagrant/muon/microservice-ux
-    tags: asap
-  - name: Get Photon
-    git: repo=http://github.com/photonevents/photon.git dest=/home/vagrant/muon/photon
-    args:    
-        force: yes
-    tags: base
 
-  #Install Muon-core
-  - name: Install Muon-core via NPM
-    npm: >
-      name=muon-core
-      global=yes
-      state=latest
-    tags: base
-    
-   
 
-  #Build Photon
-  - name: Build Photon
-    shell: sudo ./build.sh
-    args:
-      chdir: /home/vagrant/muon/photon
-      creates: app-standalone.jar
-    tags: base
 
-  #Build Photon in a Docker container
-  - name: Dockerise Photon
-    shell: sudo docker build --tag=muon/photon .
-    args:
-      chdir: /home/vagrant/muon/photon
-    tags: base
 
-  #Chown directory - using 'command' instead of 'file' to avoid -R issues
-  - name: Ensure Vagrant owns everything
-    command: sudo chown -R vagrant:vagrant /home/vagrant
-    tags: base
+  ########### Cleanup virtual box ###############################################
+
+  - name: remove apt cache files
+    command: "sudo apt-get clean"
+    tags: cleanup
+
+
+  #- name: zero out free disk space
+  #  command: "sudo dd if=/dev/zero of=/EMPTY bs=1M"
+  #  ignore_errors: yes
+  #  tags: cleanup
+
+  #- name: free up clear space for archive
+  #  command: "sudo rm -f /EMPTY"
+  #  tags: cleanup
+
+
+
+
+
+
+
+
+
+
+########### Finished ###############################################
+
+  - name: Display Instructions
+    debug:
+      msg: "Base VM Created"
+    tags: motd
