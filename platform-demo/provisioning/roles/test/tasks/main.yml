@@ -3,7 +3,7 @@
 
   #Figure out IP address of Vagrant box
   - name: Trying to get IP address
-    shell: 'hostname -I | grep -oE "\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b" | egrep -v "10.0.2.15|172.17.42.1"'
+    shell: "ifconfig docker0 | grep 'inet addr' | awk -F: '{print $2}' | awk '{print $1}'"
     register: host_ip
     tags: asap
 
@@ -46,11 +46,11 @@
     tags: nginx 
     
   - name: create muon restart script
-    copy: src=platform/muon-platform dest=/etc/init.d/muon-platform owner=root group=root mode=0774
+    copy: src=init.d/muon-platform dest=/etc/init.d/muon-platform owner=root group=root mode=0774
     tags: nginx   
     
   - name: create muon convenience scripts
-    copy: src=scripts/ dest=/home/vagrant/muon/bin owner=vagrant group=vagrant mode=0774
+    template: src=bin/muon-platform-reset dest=/home/vagrant/muon/bin owner=vagrant group=vagrant mode=0774
     tags: nginx      
     
   - name: Build symlink for muon restart
@@ -115,5 +115,5 @@
     
   - name: Display Instructions
     debug:
-      msg: "########## Your platform is served! Point your broswer to: http://loclahost:8080/ ##########"
+      msg: "########## Your platform is served! Point your broswer to: http://localhost:8080/ ##########"
     tags: motd
