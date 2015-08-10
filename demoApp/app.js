@@ -9,10 +9,10 @@ var debug			 	= require('debug')("mainApp");
 
 // configure app - should be from file or the environment
 var myConfig = {};
-  myConfig.amqp_server = 'amqp://muon:microservices@localhost:5672';
-  myConfig.servicename = "demoapp";
-  myConfig.eventstore = "photon";
-  myConfig.useport = 8080;
+  myConfig.amqp_server  = 'amqp://muon:microservices@localhost:5672';
+  myConfig.servicename  = "demoapp";
+  myConfig.eventstore   = "photon";
+  myConfig.useport      = 3010;   //Weird port so it will run on our Vagrant box once port 3010 is exposed.....
 
 var app        	= express();
 var port     		= myConfig.useport || 8080; // set our port
@@ -62,7 +62,7 @@ router.get('/', function(req, res) {
 // ----------------------------------------------------
 router.route('/users')
 
-	// create a user (accessed via POST to http://localhost:8080/api/users?fname=name_1&lname=name_2&password=xxxxx)
+	// create a user (accessed via POST to http://localhost:port/api/users?fname=name_1&lname=name_2&password=xxxxx)
 	.post(function(req, res) {
 		if(req.query.hasOwnProperty('fname') && req.query.hasOwnProperty('lname')) {
       var user = {};
@@ -73,12 +73,24 @@ router.route('/users')
       user.id = uuid.v1();
 
       //Create event for injection into EventStore
-      var event = { "service-id": "muon://demoapp", "local-id": uuid.v4(), "payload": {"user": {"id": user.id, "first": user.fname, "last": user.lname, "password": user.password, "Added": Date.now()*1000}}, "stream-name": "users", "server-timestamp": Date.now()*1000 };
+      var thisEvent = {
+                    "service-id": "muon://" + myConfig.servicename,
+                    "local-id": uuid.v4(),
+                    "payload": {"user": {
+                                          "id": user.id,
+                                          "first": user.fname,
+                                          "last": user.lname,
+                                          "password": user.password,
+                                          "Added": Date.now()}},
+                    "stream-name": "users",
+                    "server-timestamp": Date.now()
+                  };
 
-      debug("Posting event to eventstore:");
-      debug(event);
+      debug("Posting event to eventstore: ");
+      debug(thisEvent);
 
-      muonSystem.resource.command('muon://' + myConfig.eventstore + '/events', event, function(event, payload) {
+      //command: url, event, callback
+      muonSystem.resource.command('muon://' + myConfig.eventstore + '/events', thisEvent, function(event, payload) {
         debug("Add user event received");
         debug(payload);
 
@@ -96,23 +108,28 @@ router.route('/users')
 		}
 	})
 
-	// get all the users (accessed via GET to http://localhost:8080/api/users)
+	// get all the users (accessed via GET to http://localhost:port/api/users)
 	.get(function(req, res) {
 
-    var params = {"projection-name" : projName, "from" : fromDate, "to" : "toDate"};
+    var projName = "UserList";
+    var params = {"projection-name": projName};
 
-    //Do query to my end point - params in header!!!!
-    muonClient.resource.query('muon://' + myConfig.eventstore + '/query?projection-name=' + projName, function(event, payload) {
+    debug(params);
 
+    //query: url, callback, params
+    muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
+
+      debug('-------------------------');
+      debug(event);
+      debug('-------------------------');
       debug(payload);
+      debug('-------------------------');
+
       console.log("Return list of users from Photon");
   		res.json(payload);
 
     }, params);
 
-
-		console.log("Return list of users from Photon");
-		res.json({message: 'User list here'});
 
 	});
 
@@ -121,19 +138,42 @@ router.route('/users/:user_id')
 
 	// get the user with that id
 	.get(function(req, res) {
-			console.log('User with id ' + req.params.user_id + ' returned');
-			res.json('User with id ' + req.params.user_id + ' returned');
+			debug('User with id ' + req.params.user_id + ' requested');
+
+			var projName = "UserInfo";
+      var params = {"projection-name": projName, "user_id": req.params.user_id};
+
+      debug(params);
+
+      //query: url, callback, params
+      muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
+
+        debug('-------------------------');
+        debug(event);
+        debug('-------------------------');
+        debug(payload);
+        debug('-------------------------');
+
+        console.log("Return user info from Photon");
+
+        var myUser = payload.current-value[req.params.user_id];
+
+        res.json(myUser);
+
+      }, params);
+
+
 	})
 
 	// update the user with this id
 	.put(function(req, res) {
-		console.log('User with id ' + req.params.user_id + ' updated');
+		debug('User with id ' + req.params.user_id + ' updated');
 		res.json('User with id ' + req.params.user_id + ' updated');
 	})
 
 	// delete the user with this id
 	.delete(function(req, res) {
-		console.log('User with id ' + req.params.user_id + ' deleted');
+		debug('User with id ' + req.params.user_id + ' deleted');
 		res.json('User with id ' + req.params.user_id + ' deleted');
 	});
 

@@ -17,23 +17,42 @@ It's never easy on your first time ... but we've done our best to make it as eas
 To get up and running with Microserives UX you'll need the following tools installed:
 
 * https://git-scm.com[GIT]
-* http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-pip[Ansible]
 * https://www.vagrantup.com[Vagrant]
 * A Virtualisation Provider such as https://www.virtualbox.org:[VirtualBox] for Vagrant to use.
 
-### Running Microservices UX Locally for the First Time
 
-Once you have the prerequisites installed open a terminal window use GIT to clone this repository using:
+
+### Get the base platform running locally within a vagrant virtual machine
+
+  > mkdir muon-platform-demo
+  > cd muon-platform-demo
+  > vagrant box add muon-platform-demo https://dl.dropboxusercontent.com/u/8022259/muon-platform-demo.box
+  > vagrant init muon-platform-demo
+  > vagrant up
+ 
+ 
+### Youre done! Time to Kick the tyres!
+
+Navigate to the muon platform portal page to take a test drive around the platform's core services.
+
+  > http://localhost:8080/ 
+
+
+
+### Now, do somethign useful! 
+
+Next, lets get a demo mciroservices app deployed and running.
 
   > git clone https://github.com/simplicityitself/microservice-ux
-
-Change directory to microservices-ux/Ansible and issue the following command:
-
-  > cd microservice-ux/Ansible
-  > vagrant up
+  > cd microservice-ux/demoApp
+  > Readme.adoc
   
-Make a coffee while Vagrant and Ansible setup and deploy the Microservices UX locally on your machine.
+  
+  
+### And there's more! Exploring under the hood...  
 
+using the muon command to disover
+  
   > vagrant ssh
   > root@vagrant-ubuntu-trusty-64: muon -d local discover
    [ { identifier: 'photon',
@@ -46,15 +65,9 @@ Make a coffee while Vagrant and Ansible setup and deploy the Microservices UX lo
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
     
     
-    ### Going under the hood
-    
-    ***Navigate to the muon paltform portal page***
+### Photon Event Store
 
-    > http://localhost:8080/
+Check projection loaded in to photon:
     
-    ##### Checking Photon
-    
-    ***Check projection loaded in to photon***
-    
-    > http://localhost:3000/projection-keys
+  > http://localhost:3000/projection-keys
 

@@ -14,9 +14,10 @@ function eventHandler(state, event) {
   }
 
   state[user.last].username = (user.last + user.first.charAt(0)).toLowerCase();
+  state[user.last].first = user.first;
+  state[user.last].last = user.last;
   state[user.last].password = user.password;
-  state[user.last].logins = [];
-
+  
   return state;
 
 }

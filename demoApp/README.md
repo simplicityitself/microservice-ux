@@ -1,34 +1,51 @@
 # Microservices UX:  *The Microservices User eXperience*
 ## Simple Demo App
 
-This app assumes that the Vagrant/Ansible Microservices platform has been deployed and is running.
+This app assumes that the Vagrant/Ansible Microservices platform has been deployed and is running. You need to connect to the Vagrant box via
+
+```bash
+vagrant ssh
+```
+
+Once in we need to setup the demo app: this means installing the NodeJS dependancies and deploying the UserList projection into the Photon eventstore.
+
+```bash
+cd /home/vagrant/muon/microservice-ux/demoApp
 
 npm install
 
 cd build
 
 node build_listAllUsers.js
-
+```
+Now run the app
+```bash
 cd ..
 
 node app.js
+```
 
-Brings up a web REST API on 127.0.0.1:8080
-
-Check the API is responding:
-curl -X GET -H "Cache-Control: no-cache"  'http://127.0.0.1:8080/api/'
-Should return "{"message":"Default API response!"}"
+The app should start and bring up a web addressable REST API on localhost:3010. Logout of the vagrant box and in your local terminal check to see that the API is responding:
+```bash
+curl -X GET -H "Cache-Control: no-cache"  'http://127.0.0.1:3010/api/'
+```
+If it is all working as expected it should return "{"message":"Default API response!"}"
 
 Run the following to insert a user
-curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:8080/api/users/?fname=Charlie&lname=Brown&password=pass1'
+```bash
+curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:3010/api/users/?fname=Charlie&lname=Brown&password=pass1'
+```
 
-And then open 127.0.0.1:3000/index.html - should see an entry under STREAMS for users. Click on it to expose the Charlie Brown user.
+And then open local:3000/index.html ina browser and you should see an entry under STREAMS for users. Click on it to expand the Charlie Brown user.
 
 Add another user:
-curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:8080/api/users/?fname=Peppermint&lname=Patty&password=chuck'
+```bash
+curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:3010/api/users/?fname=Peppermint&lname=Patty&password=chuck'
+```
+And see the new event added in the user stream on the Photon web page.
 
-And see the new event added in the Photon web page.
+Now if you go to localhost:3000/projection/UserList in a browser, you should see a JSON string with the users you have added. Notice that the projection has been manipulated to produce a fullname and a created username for each user added.
 
-Go to 127.0.0.1:3000/projection/UserList
+You can also try going to localhost:3000/projection/UserInfo in a browser, you should see a JSON string with the users you have added but now sorted by ID rather than last name.
 
-Should see a JSON string with the users you have added, but the data has also be manipulated to show the fullname and a created username for each user added.
+For best results try using Postman to test the API.

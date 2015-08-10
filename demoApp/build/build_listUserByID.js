@@ -3,7 +3,7 @@
 * If not, it will use muon to send the create command to build it
 *
 * Author: NJW
-* Date: 2015-07-16
+* Date: 2015-08-10
 */
 
 var muonCore = require("muon-core");
@@ -33,7 +33,7 @@ muonSystem.addTransport(amqp);
 muonSystem.resource.query('muon://'+ myConfig.eventstore +'/projection-keys', function(event, payload) {
 
   //Project name
-  var projName = "UserList";
+  var projName = "UserInfo";
 
   checkProjection(projName,payload);
 
@@ -74,10 +74,10 @@ function checkProjection(projName, payload){
 
 buildProjection = function(){
 
-  var projName = "UserList";
+  var projName = "UserInfo";
 
   //actual projection reduction function
-  var projString = "function eventHandler(state, event) {  var user = event.payload.user;  if (!(user.last in state)) {state[user.last] = {};  }  state[user.last].id = user.id;  state[user.last].fullname = user.first + \' \' + user.last;  if(user.last.length > 8) {state[user.last].username = (user.last.substring + user.first.charAt(0)).toLowerCase();  }  state[user.last].username = (user.last + user.first.charAt(0)).toLowerCase();  state[user.last].first = user.first;  state[user.last].last = user.last;  state[user.last].password = user.password;  return state;}";
+  var projString = "function eventHandler(state, event) {  var user = event.payload.user;  if (!(user.id in state)) {state[user.id] = {};  }  state[user.id].id = user.id;  state[user.id].fullname = user.first + \' \' + user.last;  if(user.last.length > 8) {state[user.id].username = (user.last.substring + user.first.charAt(0)).toLowerCase();  }  state[user.id].username = (user.last + user.first.charAt(0)).toLowerCase();  state[user.id].first = user.first;  state[user.id].last = user.last;  state[user.id].password = user.password;  return state;}";
 
   //Define projection
   var projConf = {"projection-name" : projName,
