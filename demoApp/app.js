@@ -138,19 +138,42 @@ router.route('/users/:user_id')
 
 	// get the user with that id
 	.get(function(req, res) {
-			console.log('User with id ' + req.params.user_id + ' returned');
-			res.json('User with id ' + req.params.user_id + ' returned');
+			debug('User with id ' + req.params.user_id + ' requested');
+
+			var projName = "UserInfo";
+      var params = {"projection-name": projName, "user_id": req.params.user_id};
+
+      debug(params);
+
+      //query: url, callback, params
+      muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
+
+        debug('-------------------------');
+        debug(event);
+        debug('-------------------------');
+        debug(payload);
+        debug('-------------------------');
+
+        console.log("Return user info from Photon");
+
+        var myUser = payload.current-value[req.params.user_id];
+
+        res.json(myUser);
+
+      }, params);
+
+
 	})
 
 	// update the user with this id
 	.put(function(req, res) {
-		console.log('User with id ' + req.params.user_id + ' updated');
+		debug('User with id ' + req.params.user_id + ' updated');
 		res.json('User with id ' + req.params.user_id + ' updated');
 	})
 
 	// delete the user with this id
 	.delete(function(req, res) {
-		console.log('User with id ' + req.params.user_id + ' deleted');
+		debug('User with id ' + req.params.user_id + ' deleted');
 		res.json('User with id ' + req.params.user_id + ' deleted');
 	});
 

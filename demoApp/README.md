@@ -25,7 +25,7 @@ cd ..
 node app.js
 ```
 
-The app should start and bring up a web addressible REST API on localhost:3010. Logout of the vagrant box and in your local terminal check to see that the API is responding:
+The app should start and bring up a web addressable REST API on localhost:3010. Logout of the vagrant box and in your local terminal check to see that the API is responding:
 ```bash
 curl -X GET -H "Cache-Control: no-cache"  'http://127.0.0.1:3010/api/'
 ```
@@ -45,5 +45,7 @@ curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:3010/api/users/?f
 And see the new event added in the user stream on the Photon web page.
 
 Now if you go to localhost:3000/projection/UserList in a browser, you should see a JSON string with the users you have added. Notice that the projection has been manipulated to produce a fullname and a created username for each user added.
+
+You can also try going to localhost:3000/projection/UserInfo in a browser, you should see a JSON string with the users you have added but now sorted by ID rather than last name.
 
 For best results try using Postman to test the API.
