@@ -17,12 +17,21 @@ npm install
 cd build
 
 node build_listAllUsers.js
+node build_listUserByID.js
 ```
 Now run the app
 ```bash
 cd ..
 
 node app.js
+```
+
+Alternatively, if you want the full debug output start the app
+```bash
+cd..
+
+export LEVEL=debug
+DEBUG=* node app.js
 ```
 
 The app should start and bring up a web addressable REST API on localhost:3010. Logout of the vagrant box and in your local terminal check to see that the API is responding:
@@ -48,4 +57,4 @@ Now if you go to localhost:3000/projection/UserList in a browser, you should see
 
 You can also try going to localhost:3000/projection/UserInfo in a browser, you should see a JSON string with the users you have added but now sorted by ID rather than last name.
 
-For best results try using Postman to test the API.
+For best results try using Postman to test the API - https://www.getpostman.com/  

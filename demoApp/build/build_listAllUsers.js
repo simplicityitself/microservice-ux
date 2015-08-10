@@ -53,8 +53,10 @@ function checkProjection(projName, payload){
 
       var thisData = keyArray[i];
 
+      debug(thisData);
+
       //check for matching name
-      if (thisData.sym.name == projName) {
+      if (thisData == projName) {
 
         debug('Found a matching Projection');
         //change flag
