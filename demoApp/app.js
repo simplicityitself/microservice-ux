@@ -15,7 +15,7 @@ var myConfig = {};
   myConfig.useport      = 3010;   //Weird port so it will run on our Vagrant box once port 3010 is exposed.....
 
 var app        	= express();
-var port     		= myConfig.useport || 8080; // set our port
+var port     		= myConfig.useport || 8080; // set our port with 8080 fallback
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,7 +58,7 @@ router.get('/', function(req, res) {
 	res.json({ message: 'Default API response!' });
 });
 
-// on routes that end in /users
+// Code for all routes that end in /users
 // ----------------------------------------------------
 router.route('/users')
 
@@ -111,25 +111,32 @@ router.route('/users')
 	// get all the users (accessed via GET to http://localhost:port/api/users)
 	.get(function(req, res) {
 
+    debug("Attempting to return a list of users");
+
     var projName = "UserList";
     var params = {"projection-name": projName};
 
     debug(params);
 
-    //query: url, callback, params
-    muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
+    try{
+      //query: url, callback, params
+      muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
 
-      debug('-------------------------');
-      debug(event);
-      debug('-------------------------');
-      debug(payload);
-      debug('-------------------------');
+        debug('-------------------------');
+        debug(event);
+        debug('-------------------------');
+        debug(payload);
+        debug('-------------------------');
+        debug("Returned a list of users from Photon");
 
-      console.log("Return list of users from Photon");
-  		res.json(payload);
+        res.json(payload);
 
-    }, params);
-
+      }, params);
+    }
+    catch (e) {
+      debug("There was an error");
+      debug(e);
+    }
 
 	});
 
@@ -153,8 +160,7 @@ router.route('/users/:user_id')
         debug('-------------------------');
         debug(payload);
         debug('-------------------------');
-
-        console.log("Return user info from Photon");
+        debug("Returned user info from Photon");
 
         var myUser = payload.current-value[req.params.user_id];
 

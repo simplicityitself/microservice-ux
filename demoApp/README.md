@@ -26,7 +26,7 @@ cd ..
 node app.js
 ```
 
-Alternatively, if you want the full debug output start the app
+Alternatively, if you want the full debug output start the app using
 ```bash
 cd..
 
@@ -42,10 +42,10 @@ If it is all working as expected it should return "{"message":"Default API respo
 
 Run the following to insert a user
 ```bash
-curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:3010/api/users/?fname=Charlie&lname=Brown&password=pass1'
+curl -X POST -H "Cache-Control: no-cache" -H 'http://127.0.0.1:3010/api/users/?fname=Charlie&lname=Brown&password=peanuts'
 ```
 
-And then open local:3000/index.html ina browser and you should see an entry under STREAMS for users. Click on it to expand the Charlie Brown user.
+And then open local:3000/index.html in a browser and you should see an entry under STREAMS for users. Click on it to expand the new user.
 
 Add another user:
 ```bash
