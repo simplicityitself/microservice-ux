@@ -120,7 +120,7 @@ router.route('/users')
 
     try{
       //query: url, callback, params
-      muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
+      muonSystem.resource.query('muon://'+myConfig.eventstore+'/projection', function(event, payload) {
 
         debug('-------------------------');
         debug(event);
@@ -153,7 +153,7 @@ router.route('/users/:user_id')
       debug(params);
 
       //query: url, callback, params
-      muonSystem.resource.query('muon://'+myConfig.eventstore+'/query', function(event, payload) {
+      muonSystem.resource.query('muon://'+myConfig.eventstore+'/projection', function(event, payload) {
 
         debug('-------------------------');
         debug(event);
@@ -162,9 +162,9 @@ router.route('/users/:user_id')
         debug('-------------------------');
         debug("Returned user info from Photon");
 
-        var myUser = payload.current-value[req.params.user_id];
+        //var myUser = payload.current-value][req.params.user_id];
 
-        res.json(myUser);
+        res.json(payload);
 
       }, params);
 
