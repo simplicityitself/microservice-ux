@@ -12,7 +12,7 @@ var myConfig = {};
   myConfig.amqp_server  = 'amqp://muon:microservices@localhost:5672';
   myConfig.servicename  = "demoapp";
   myConfig.eventstore   = "photon";
-  myConfig.useport      = 3020;   //Weird port so it will run on our Vagrant box once port 3010 is exposed.....
+  myConfig.useport      = 3020;   //Change this to 3010 if you want the app to run ON the Vagrant box instead of locally 
 
 var app        	= express();
 var port     		= myConfig.useport || 8080; // set our port with 8080 fallback
@@ -129,7 +129,7 @@ router.route('/users')
         debug('-------------------------');
         debug("Returned a list of users from Photon");
 
-        
+
         res.json(payload["current-value"]);
 
       }, params);

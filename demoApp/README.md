@@ -1,61 +1,66 @@
 # Microservices UX:  *The Microservices User eXperience*
 ## Simple Demo App
 
-This app assumes that the Vagrant/Ansible Microservices platform has been deployed and is running. You need to connect to the Vagrant box via
+### Installation & Setup
+This app assumes that the Microservices platform has been deployed using Vagrant and you have checked out the demoApp code from GitHub into a local directory. We now need to build the projections for this App on the Photon Eventstore running on the Vagrant box. Go into the local demoApp folder and run:
 
 ```bash
-vagrant ssh
-```
-
-Once in we need to setup the demo app: this means installing the NodeJS dependancies and deploying the projections into the Photon eventstore.
-
-```bash
-cd /home/vagrant/muon/microservice-ux/demoApp
-
 npm install
+```
+to install the NodeJS dependancies.
 
+Projections can be created in three different ways: you can build them programmatically, via the Photon web interface or by using cURL. In this example we will deploy the projections programmatically. From the demoApp folder change to the build directory and run the two build_ files.
+
+```bash
 cd build
 
-node build_listAllUsers.js
-node build_listUserByID.js
+DEBUG=* node build_listAllUsers.js
+DEBUG=* node build_listUserByID.js
 ```
-Now go into the demoApp folder....
-```bash
-cd ..
+This will check to see if a projection with a matching name exists. If it does not, the script will create one. If the projection exists the process will end. By default creating a projection with a duplicate name will cause the existing projection to be overwritten.
 
+### Running the App
+
+We have now deployed the projections onto the Eventstore and are ready to start the app. In the demoApp folder start the app by using
+
+```bash
 node app.js
 ```
 
 Alternatively, if you want the full debug output start the app using
 ```bash
-cd..
-
 export LEVEL=debug
 DEBUG=* node app.js
 ```
 
-The app should start and bring up a web addressable REST API on localhost:3010. Logout of the vagrant box and in your local terminal check to see that the API is responding:
+### Testing the App - Add Users
+
+The app should start and make a web addressable REST API available on http://localhost:3020/api. Open another terminal window and check to see that the API is responding:
 ```bash
 curl -X GET -H "Cache-Control: no-cache"  'http://localhost:3020/api/'
 ```
-If it is all working as expected it should return "{"message":"Default API response!"}"
+If it is all working as expected it should return
+```bash
+{"message":"Default API response!"}
+```
 
-Run the following to insert a user
+To insert a new user we post the information to the API. The following will insert a user named Charlie Brown.
 ```bash
 curl -X POST -H "Cache-Control: no-cache" 'http://localhost:3020/api/users/?fname=Charlie&lname=Brown&password=peanuts'
 ```
+The new user will be inserted - you can now open the Photon web page at http://localhost:3000/index.html in a browser and see a link under STREAMS called users. Click on it to expand and display the last five 'events' added to the Eventstore. In this case there should be only one - the  user you just created.
 
-And then open local:3000/index.html in a browser and you should see an entry under STREAMS for users. Click on it to expand the new user.
-
-Add another user:
+Go back to the terminal and add another user:
 ```bash
 curl -X POST -H "Cache-Control: no-cache" 'http://localhost:3020/api/users/?fname=Peppermint&lname=Patty&password=chuck'
 ```
-And see the new event added in the user stream on the Photon web page.
+As before we can see the new user 'event' added in the user stream on the Photon web page.
 
-Now if you go to localhost:3000/projection/UserList in a browser, you should see a JSON string with the users you have added. Notice that the projection has been manipulated to produce a fullname and a created username for each user added.
+### Testing the App - Query The Eventstore
 
-You can also try going to localhost:3000/projection/UserInfo in a browser, you should see a JSON string with the users you have added but now sorted by ID rather than last name.
+Now if you go to the Photon web page for the UserList Projection (http://localhost:3000/projection/UserList) in a browser, you should see a JSON string with the users you have added. Notice that the information has been modified as part of the projection to insert additional information in the form of a fullname and a username for each user added.
+
+You can also try going to http://localhost:3000/projection/UserInfo in a browser, you should see a JSON string with the users you have added but now indexed by ID rather than last name.
 
 To see all users in the system via the API:
 ```bash
