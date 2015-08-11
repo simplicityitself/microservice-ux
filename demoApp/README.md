@@ -36,20 +36,20 @@ DEBUG=* node app.js
 
 The app should start and bring up a web addressable REST API on localhost:3010. Logout of the vagrant box and in your local terminal check to see that the API is responding:
 ```bash
-curl -X GET -H "Cache-Control: no-cache"  'http://localhost:3010/api/'
+curl -X GET -H "Cache-Control: no-cache"  'http://localhost:3020/api/'
 ```
 If it is all working as expected it should return "{"message":"Default API response!"}"
 
 Run the following to insert a user
 ```bash
-curl -X POST -H "Cache-Control: no-cache" 'http://localhost:3010/api/users/?fname=Charlie&lname=Brown&password=peanuts'
+curl -X POST -H "Cache-Control: no-cache" 'http://localhost:3020/api/users/?fname=Charlie&lname=Brown&password=peanuts'
 ```
 
 And then open local:3000/index.html in a browser and you should see an entry under STREAMS for users. Click on it to expand the new user.
 
 Add another user:
 ```bash
-curl -X POST -H "Cache-Control: no-cache" 'http://localhost:3010/api/users/?fname=Peppermint&lname=Patty&password=chuck'
+curl -X POST -H "Cache-Control: no-cache" 'http://localhost:3020/api/users/?fname=Peppermint&lname=Patty&password=chuck'
 ```
 And see the new event added in the user stream on the Photon web page.
 
@@ -59,12 +59,12 @@ You can also try going to localhost:3000/projection/UserInfo in a browser, you s
 
 To see all users in the system via the API:
 ```bash
-curl -X GET -H "Cache-Control: no-cache"  'http://localhost:3010/api/users'
+curl -X GET -H "Cache-Control: no-cache"  'http://localhost:3020/api/users'
 ```
 
 To retrieve a specific user via the API copy the UUID from the User ID field and pass it into the API
 ```bash
-curl -X GET -H "Cache-Control: no-cache" 'http://localhost:3010/api/users/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+curl -X GET -H "Cache-Control: no-cache" 'http://localhost:3020/api/users/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 ```
 
 For best results try using Postman to test the API - https://www.getpostman.com/  
