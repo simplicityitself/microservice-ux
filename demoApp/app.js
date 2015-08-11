@@ -129,7 +129,8 @@ router.route('/users')
         debug('-------------------------');
         debug("Returned a list of users from Photon");
 
-        res.json(payload);
+        
+        res.json(payload["current-value"]);
 
       }, params);
     }
@@ -162,9 +163,10 @@ router.route('/users/:user_id')
         debug('-------------------------');
         debug("Returned user info from Photon");
 
-        //var myUser = payload.current-value][req.params.user_id];
+        //Extract required User from results
+        var myUser = payload["current-value"][req.params.user_id];
 
-        res.json(payload);
+        res.json(myUser);
 
       }, params);
 
