@@ -21,7 +21,7 @@ This will check to see if a projection with a matching name exists. If it does n
 
 ### Running the App
 
-We have now deployed the projections onto the Eventstore and are ready to start the app. In the demoApp folder start the app by using
+We have now deployed the projections onto the Eventstore and are ready to start the app. In the demoApp folder (NOT the /build folder!!) start the app by using
 
 ```bash
 node app.js
