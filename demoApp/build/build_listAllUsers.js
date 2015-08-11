@@ -72,6 +72,9 @@ function checkProjection(projName, payload){
     // Fire the projection_required event
     eventEmitter.emit('projection_required');
   }
+  else {
+    eventEmitter.emit('finish');
+  }
 }
 
 buildProjection = function(){
@@ -101,4 +104,10 @@ eventEmitter.on('projection_required', buildProjection);
 
 eventEmitter.on('projection_created', function(){
    debug('Created new projection');
+   eventEmitter.emit('finish');
+});
+
+eventEmitter.on('finish', function(){
+   debug('Finished');
+   process.exit();
 });
