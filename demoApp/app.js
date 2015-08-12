@@ -64,12 +64,22 @@ router.route('/users')
 
 	// create a user (accessed via POST to http://localhost:port/api/users?fname=name_1&lname=name_2&password=xxxxx)
 	.post(function(req, res) {
-		if(req.query.hasOwnProperty('fname') && req.query.hasOwnProperty('lname')) {
-      var user = {};
 
+    var user = {};
+
+		if(req.query.hasOwnProperty('fname') && req.query.hasOwnProperty('lname')) {
 			user.fname = req.query.fname;
       user.lname = req.query.lname;
 			user.password = req.query.password;
+    }
+    else if (req.body.hasOwnProperty('fname') && req.body.hasOwnProperty('lname')) {
+      user.fname = req.body.fname;
+      user.lname = req.body.lname;
+      user.password = req.body.password;
+    }
+
+    if(user.hasOwnProperty('fname') && user.hasOwnProperty('lname')){
+      //Add ID
       user.id = uuid.v1();
 
       //Create event for injection into EventStore
@@ -95,7 +105,7 @@ router.route('/users')
         debug(payload);
 
         if (payload.correct == 'true') {
-          res.json({ message: 'User ' + user.fname + ' ' + user.lname +' created! (' + user.id + ')'});
+          res.json({ message: 'User ' + user.fname + ' ' + user.lname +' created!', userID: user.id });
         }
         else {
           res.json({ message: 'Error with Photon insert for user creation'});
@@ -166,7 +176,12 @@ router.route('/users/:user_id')
         //Extract required User from results
         var myUser = payload["current-value"][req.params.user_id];
 
-        res.json(myUser);
+        if (typeof myUser !== 'undefined'){
+          res.json(myUser);  
+        }
+        else {
+          res.json({ message: 'No matching user found' });
+        }
 
       }, params);
 

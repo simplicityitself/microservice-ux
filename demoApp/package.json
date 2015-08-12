@@ -8,5 +8,11 @@
     "express": "~4.13.1",
     "muon-core": "^39.1.0-0",
     "uuid": "^2.0.1"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "expect": "*",
+    "chai": "*",
+    "supertest":"*"
   }
 }
