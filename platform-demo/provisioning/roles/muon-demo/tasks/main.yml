@@ -1,9 +1,0 @@
----
-  # This playbook contains plays that will be run on ASAP nodes.
-
-
-  - name: Display Instructions
-    debug:
-      msg: "Muon demo microservices projects created..."
-    tags: motd
-
