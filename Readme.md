@@ -1,8 +1,8 @@
 # Microservices UX:  *The Microservices User eXperience*
 
-> ***"Don't make me think!"*** - *Steve Krug*
+`***"Don't make me think!"*** - *Steve Krug*`
 
-> ***"Make me think ... about what matters!"*** - *The Microservices UX Team*
+`***"Make me think ... about what matters!"*** - *The Microservices UX Team*`
 
 Building, Deploying and Maintaining Polyglot Microservices is *hard*. This project makes it *simple* and *easy*.
 
@@ -24,18 +24,22 @@ To get up and running with Microserives UX you'll need the following tools insta
 
 ### Get the base platform running locally within a vagrant virtual machine
 
-  > mkdir muon-platform-demo
-  > cd muon-platform-demo
-  > vagrant box add muon-platform-demo https://dl.dropboxusercontent.com/u/8022259/muon-platform-demo.box
-  > vagrant init muon-platform-demo
-  > vagrant up
+```
+  mkdir muon-platform-demo
+  cd muon-platform-demo
+  vagrant box add muon-platform-demo https://dl.dropboxusercontent.com/u/8022259/muon-platform-demo.box
+  vagrant init muon-platform-demo
+  vagrant up
+```
  
  
 ### Youre done! Time to Kick the tyres!
 
 Navigate to the muon platform portal page to take a test drive around the platform's core services.
 
-  > http://localhost:8080/ 
+```
+  http://localhost:8080/ 
+```
 
 
 
@@ -43,18 +47,21 @@ Navigate to the muon platform portal page to take a test drive around the platfo
 
 Next, lets get a demo mciroservices app deployed and running.
 
-  > git clone https://github.com/simplicityitself/microservice-ux
-  > cd microservice-ux/demoApp
-  > Readme.adoc
+```
+  git clone https://github.com/simplicityitself/microservice-ux
+  cd microservice-ux/demoApp
+```
   
+  view Readme.adoc
   
   
 ### And there's more! Exploring under the hood...  
 
 using the muon command to disover
   
-  > vagrant ssh
-  > root@vagrant-ubuntu-trusty-64: muon -d local discover
+```
+  vagrant ssh
+  root@vagrant-ubuntu-trusty-64: muon -d local discover
    [ { identifier: 'photon',
     resourceConnections: [ 'amqp://muon:microservices@muonhost' ],
     streamConnections: [ 'amqp://muon:microservices@muonhost' ],
@@ -63,11 +70,14 @@ using the muon command to disover
     tags: [ [] ],
     resourceConnections: [ 'amqp://muon:microservices@172.28.128.3:5672' ],
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
+```
     
     
 ### Photon Event Store
 
 Check projection loaded in to photon:
     
-  > http://localhost:3000/projection-keys
+```
+ http://localhost:3000/projection-keys
+```
 
