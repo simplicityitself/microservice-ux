@@ -2,12 +2,14 @@ function eventHandler(state, event) {
 
   var user = event.payload.user;
 
-  if (!(user.last in state)) {
-    state[user.last] = {};
+  var key = user.last.replace(/ /g,'')
+
+  if (!(key in state)) {
+    state[key] = {};
   }
 
-  state[user.last].id = user.id;
-  state[user.last].fullname = user.first + ' ' + user.last;
+  state[key].id = user.id;
+  state[key].fullname = user.first + ' ' + user.last;
 
   var username = null;
 
@@ -18,10 +20,10 @@ function eventHandler(state, event) {
     username = (user.last + user.first.charAt(0)).toLowerCase();
   }
 
-  state[user.last].username = username.replace(/ /g,'');
-  state[user.last].first = user.first;
-  state[user.last].last = user.last;
-  state[user.last].password = user.password;
+  state[key].username = username.replace(/ /g,'');
+  state[key].first = user.first;
+  state[key].last = user.last;
+  state[key].password = user.password;
 
   return state;
 }
