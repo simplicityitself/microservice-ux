@@ -24,6 +24,7 @@ To get up and running with Microserives UX you'll need the following tools insta
 
 ### Get the base platform running locally within a vagrant virtual machine
 
+<<<<<<< HEAD:Readme.md
 ```
   mkdir muon-platform-demo
   cd muon-platform-demo
