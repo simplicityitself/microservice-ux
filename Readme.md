@@ -1,12 +1,12 @@
 # Microservices UX:  *The Microservices User eXperience*
 
-`***"Don't make me think!"*** - *Steve Krug*`
+"Don't make me think!" - Steve Krug
 
-`***"Make me think ... about what matters!"*** - *The Microservices UX Team*`
+"Make me think ... about what matters!" - The Microservices UX Team
 
 Building, Deploying and Maintaining Polyglot Microservices is *hard*. This project makes it *simple* and *easy*.
 
-By curating ***best-of-breed infrastructure*** and blending in a ***coherent deployment and strong programming model***, Microservices UX helps you quickly ***gain the benefits of Microservices without the hassle***.
+By curating *best-of-breed infrastructure* and blending in a *coherent deployment and strong programming model*, Microservices UX helps you quickly *gain the benefits of Microservices without the hassle*.
 
 ## Your First Time with *Microservices UX*
 
@@ -16,15 +16,14 @@ It's never easy on your first time ... but we've done our best to make it as eas
 
 To get up and running with Microserives UX you'll need the following tools installed:
 
-* https://git-scm.com[GIT]
-* https://www.vagrantup.com[Vagrant]
+* https://git-scm.com [GIT]
+* https://www.vagrantup.com [Vagrant]
 * A Virtualisation Provider such as https://www.virtualbox.org:[VirtualBox] for Vagrant to use.
 
 
 
 ### Get the base platform running locally within a vagrant virtual machine
 
-<<<<<<< HEAD:Readme.md
 ```
   mkdir muon-platform-demo
   cd muon-platform-demo
