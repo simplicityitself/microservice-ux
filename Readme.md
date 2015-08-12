@@ -18,7 +18,7 @@ To get up and running with Microserives UX you'll need the following tools insta
 
 * https://git-scm.com [GIT]
 * https://www.vagrantup.com [Vagrant]
-* A Virtualisation Provider such as https://www.virtualbox.org:[VirtualBox] for Vagrant to use.
+* A Virtualisation Provider such as https://www.virtualbox.org [VirtualBox] for Vagrant to use.
 
 
 
