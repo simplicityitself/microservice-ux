@@ -31,7 +31,7 @@ To get up and running with Microserives UX you'll need the following tools insta
   > vagrant up
  
  
-### Youre done! Time to Kick the tyres!
+### You're done! Time to Kick the tyres!
 
 Navigate to the muon platform portal page to take a test drive around the platform's core services.
 
@@ -51,7 +51,7 @@ Next, lets get a demo mciroservices app deployed and running.
   
 ### And there's more! Exploring under the hood...  
 
-using the muon command to disover
+Using the muon command to discover running services: 
   
   > vagrant ssh
   > root@vagrant-ubuntu-trusty-64: muon -d local discover
@@ -67,7 +67,7 @@ using the muon command to disover
     
 ### Photon Event Store
 
-Check projection loaded in to photon:
+Check the projections loaded in to photon:
     
   > http://localhost:3000/projection-keys
 
