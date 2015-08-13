@@ -140,7 +140,16 @@ router.route('/users')
         debug("Returned a list of users from Photon");
 
 
-        res.json(payload["current-value"]);
+         //Extract required Users from results
+        var currentUsers = payload["current-value"];
+
+        if (typeof currentUsers !== 'undefined'){
+          res.json(currentUsers);  
+        }
+        else {
+          res.json({ message: 'No users found' });
+        }
+
 
       }, params);
     }

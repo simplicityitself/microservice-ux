@@ -9,7 +9,7 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place', function
     it('should return a Default response', function(done){
         api.get('/api')
         .set('Accept', 'application/json')
-         .expect(200)
+        .expect(200)
         .end(function(err, res){
             expect(res.body).not.to.equal(null);
             expect(res.body).to.have.property("message");
@@ -22,7 +22,20 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place', function
     });
 
     //Check for empty users
-    it('should get an empty object back from the initial listAllUsers');
+    it('should get an empty object back from the initial listAllUsers', function(done){
+        api.get('/api/users')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end(function(err, res){
+            expect(res.body).not.to.equal(null);
+            expect(res.body).to.have.property("message");
+
+            expect(res.body.message).not.to.equal(null);
+            
+            expect(res.body.message).to.equal("No users found");
+            done();
+        });
+    });
 
     //Check that user added incorrectly
     it('should get an error response object back from a failed user insert', function(done){
