@@ -3,7 +3,7 @@ var expect = require("chai").expect;
 var supertest = require("supertest");
 var api = supertest("http://localhost:3020");
 
-describe('DemoApp API Testing - N.B. Assumes Projections are in place', function(){
+describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users in the system', function(){
 
     //Check API is up
     it('should return a Default response', function(done){
