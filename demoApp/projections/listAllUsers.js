@@ -2,7 +2,7 @@ function eventHandler(state, event) {
 
   var user = event.payload.user;
 
-  var key = user.last.replace(/ /g,'')
+  var key = user.last.replace(/ /g,'');
 
   if (!(key in state)) {
     state[key] = {};
