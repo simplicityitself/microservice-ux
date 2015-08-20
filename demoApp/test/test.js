@@ -1,10 +1,13 @@
+//Options for Mocha-Unfunk-Reporter
+process.env['mocha-unfunk-style'] = 'html';
+
 var should = require("chai").should();
 var expect = require("chai").expect;
 var supertest = require("supertest");
 var api = supertest("http://localhost:3020");
 
-describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users in the system', function(){
-
+describe('DemoApp', function(){
+  describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users in the system', function(){
     //Check API is up
     it('should return a Default response', function(done){
         api.get('/api')
@@ -15,7 +18,7 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users
             expect(res.body).to.have.property("message");
 
             expect(res.body.message).not.to.equal(null);
-            
+
             expect(res.body.message).to.equal("Default API response!");
             done();
         });
@@ -31,7 +34,7 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users
             expect(res.body).to.have.property("message");
 
             expect(res.body.message).not.to.equal(null);
-            
+
             expect(res.body.message).to.equal("No users found");
             done();
         });
@@ -84,7 +87,7 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users
             expect(res.body).to.have.property("Mocha");
 
             expect(res.body.Mocha).not.to.equal(null);
-            
+
             expect(res.body.Mocha).to.have.property("id");
 
             expect(res.body.Mocha).to.have.property("fullname");
@@ -92,13 +95,13 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users
 
             expect(res.body.Mocha).to.have.property("username");
             expect(res.body.Mocha.username).not.equal(null);
-            
+
             expect(res.body.Mocha).to.have.property("first");
             expect(res.body.Mocha.first).not.equal(null);
-            
+
             expect(res.body.Mocha).to.have.property("last");
             expect(res.body.Mocha.last).not.equal(null);
-            
+
             expect(res.body.Mocha).to.have.property("password");
             expect(res.body.Mocha.password).not.equal(null);
             done();
@@ -115,9 +118,10 @@ describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users
             expect(res.body).to.have.property("message");
 
             expect(res.body.message).not.to.equal(null);
-            
+
             expect(res.body.message).to.equal("No matching user found");
             done();
         });
     });
+  });
 });
