@@ -12,7 +12,7 @@ var myConfig = {};
   myConfig.amqp_server  = 'amqp://muon:microservices@localhost:5672';
   myConfig.servicename  = "demoapp";
   myConfig.eventstore   = "photon";
-  myConfig.useport      = 3020;   //Change this to 3010 if you want the app to run ON the Vagrant box instead of locally 
+  myConfig.useport      = 3020;   //Change this to 3010 if you want the app to run ON the Vagrant box instead of locally
 
 var app        	= express();
 var port     		= myConfig.useport || 8080; // set our port with 8080 fallback
@@ -102,7 +102,11 @@ router.route('/users')
       //command: url, event, callback
       muonSystem.resource.command('muon://' + myConfig.eventstore + '/events', thisEvent, function(event, payload) {
         debug("Add user event received");
+        debug('-------------------------');
+        debug(event);
+        debug('-------------------------');
         debug(payload);
+        debug('-------------------------');
 
         if (payload.correct == 'true') {
           res.json({ message: 'User ' + user.fname + ' ' + user.lname +' created!', userID: user.id });
@@ -139,17 +143,20 @@ router.route('/users')
         debug('-------------------------');
         debug("Returned a list of users from Photon");
 
+        if (payload.hasOwnProperty('current-value')) {
+          //Extract required Users from results
+          var currentUsers = payload["current-value"];
 
-         //Extract required Users from results
-        var currentUsers = payload["current-value"];
-
-        if (typeof currentUsers !== 'undefined'){
-          res.json(currentUsers);  
+          if (typeof currentUsers !== 'undefined'){
+            res.json(currentUsers);
+          }
+          else {
+            res.json({ message: 'No users found', issue: 'No users found' });
+          }
         }
         else {
-          res.json({ message: 'No users found' });
+          res.json({ message: 'No users found', issue: 'Nothing returned' });
         }
-
 
       }, params);
     }
@@ -183,14 +190,21 @@ router.route('/users/:user_id')
         debug("Returned user info from Photon");
 
         //Extract required User from results
-        var myUser = payload["current-value"][req.params.user_id];
+        if (payload.hasOwnProperty('current-value')) {
+          var myUser = payload["current-value"][req.params.user_id];
 
-        if (typeof myUser !== 'undefined'){
-          res.json(myUser);  
+          if (typeof myUser !== 'undefined'){
+            res.json(myUser);
+          }
+          else {
+            res.json({ message: 'No matching user found', issue: 'No such user' });
+          }
         }
         else {
-          res.json({ message: 'No matching user found' });
+          res.json({ message: 'No matching user found', issue: 'Nothing returned' });
         }
+
+
 
       }, params);
 

@@ -82,7 +82,7 @@ buildProjection = function(){
   var projName = "UserList";
 
   //actual projection reduction function
-  var projString = "function eventHandler(state, event) {  var user = event.payload.user;  var key = user.last.replace(\/ \/g,\'\')  if (!(key in state)) {state[key] = {};  }  state[key].id = user.id;  state[key].fullname = user.first + \' \' + user.last;  var username = null;  if(user.last.length > 8) {username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();  }  else {username = (user.last + user.first.charAt(0)).toLowerCase();  }  state[key].username = username.replace(\/ \/g,\'\');  state[key].first = user.first;  state[key].last = user.last;  state[key].password = user.password;  return state;}";
+  var projString = "function eventHandler(state, event) {\r\n\r\n  var user = event.payload.user;\r\n\r\n  var key = user.last.replace(\/ \/g,\'\');\r\n\r\n  if (!(key in state)) {\r\n    state[key] = {};\r\n  }\r\n\r\n  state[key].id = user.id;\r\n  state[key].fullname = user.first + \' \' + user.last;\r\n\r\n  var username = null;\r\n\r\n  if(user.last.length > 8) {\r\n    username = (user.last.substring(0,7) + user.first.charAt(0)).toLowerCase();\r\n  }\r\n  else {\r\n    username = (user.last + user.first.charAt(0)).toLowerCase();\r\n  }\r\n\r\n  state[key].username = username.replace(\/ \/g,\'\');\r\n  state[key].first = user.first;\r\n  state[key].last = user.last;\r\n  state[key].password = user.password;\r\n\r\n  return state;\r\n}";
 
   //Define projection
   var projConf = {"projection-name" : projName,

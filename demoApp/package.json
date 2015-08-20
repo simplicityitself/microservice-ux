@@ -5,7 +5,9 @@
   "dependencies": {
     "body-parser": "~1.13.2",
     "express": "~4.13.1",
-    "muon-core": "^39.1.0-0",
+    "muon-core": "39.1.0-0",
+    "request": "^2.60.0",
+    "restify": "^4.0.0",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -13,6 +15,6 @@
     "mocha": "*",
     "expect": "*",
     "chai": "*",
-    "supertest":"*"
+    "supertest": "*"
   }
 }
