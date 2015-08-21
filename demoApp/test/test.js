@@ -4,7 +4,9 @@ process.env['mocha-unfunk-style'] = 'html';
 var should = require("chai").should();
 var expect = require("chai").expect;
 var supertest = require("supertest");
-var api = supertest("http://localhost:3020");
+
+// Tests are designed to run on our VagrantBox
+var api = supertest("http://localhost:3010");
 
 describe('DemoApp', function(){
   describe('DemoApp API Testing - N.B. Assumes Projections are in place & NO users in the system', function(){

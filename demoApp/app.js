@@ -1,21 +1,21 @@
 //************ Setup ************
 // call the packages we need
-var express    	= require('express');
-var bodyParser 	= require('body-parser');
+var express     = require('express');
+var bodyParser  = require('body-parser');
 var muonCore		= require("muon-core");
 var uuid        = require('uuid');
 
-var debug			 	= require('debug')("mainApp");
+var debug       = require('debug')("mainApp");
 
 // configure app - should be from file or the environment
 var myConfig = {};
   myConfig.amqp_server  = 'amqp://muon:microservices@localhost:5672';
   myConfig.servicename  = "demoapp";
   myConfig.eventstore   = "photon";
-  myConfig.useport      = 3020;   //Change this to 3010 if you want the app to run ON the Vagrant box instead of locally
+  myConfig.useport      = 3010;   //Change this to 3020 if you want the app to run locally
 
-var app        	= express();
-var port     		= myConfig.useport || 8080; // set our port with 8080 fallback
+var app     = express();
+var port    = myConfig.useport || 3020; // set our port with 3020 fallback
 
 // configure body parser
 app.use(bodyParser.urlencoded({ extended: true }));
