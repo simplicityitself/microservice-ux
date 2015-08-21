@@ -27,7 +27,7 @@ To get up and running with Microserives UX you'll need the following tools insta
 ```
   mkdir muon-platform-demo
   cd muon-platform-demo
-  vagrant box add muon-platform-demo https://dl.dropboxusercontent.com/u/8022259/muon-platform-demo.box
+  vagrant box add muon-platform-demo https://microux.s3.amazonaws.com/muon-platform-demo.box
   vagrant init muon-platform-demo
   vagrant up
 ```
@@ -81,3 +81,14 @@ Check projection loaded in to photon:
  http://localhost:3000/projection-keys
 ```
 
+
+
+
+### Getting a new(er) version of the vagrant box
+
+You must first remove the old version of the box as below, and then re-download:
+
+```
+vagrant box remove muon-platform-demo
+vagrant box add muon-platform-demo https://microux.s3.amazonaws.com/muon-platform-demo.box
+```
