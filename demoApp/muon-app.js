@@ -25,28 +25,30 @@ function startDemoUserService() {
 
     });
 
+    muonSystem.resource.onCommand('/remove-user', function() {
 
-    //muonSystem.resource.onCommand('/remove-user', function() {
-    //
-    //});
+    });
 
-    //muonSystem.resource.onCommand('/update-user', function() {
-    //
-    //});
+    muonSystem.resource.onCommand('/update-user', function() {
+
+    });
+
+    muonSystem.resource.onCommand('/login-user', function() {
+
+    });
 
     muonSystem.resource.onQuery('/find-user', function() {
 
     });
 
 
-    //muonSystem.resource.onQuery('/show-all-users', function() {
-    //
-    //});
+    muonSystem.resource.onQuery('/show-all-users', function() {
 
-    //muonSystem.resource.onQuery('/logins?from&to', function() {
-    //
-    //});
+    });
 
+    muonSystem.resource.onQuery('/logins?from&to', function() {
+
+    });
 
 }
 
@@ -90,7 +92,7 @@ function insert_projection(projectionName, callback) {
 
              logger.info("insert_projection() inserting projection via muon: " + projectionName);
                //callback({event: {}, payload: {}});
-             muonSystem.resource.command('muon://photon/projections', projectionWrapper, function (event, payload){
+             muonSystem.resource.command('muon://event-store/projections', projectionWrapper, function (event, payload){
                  logger.info("projection " + projectionName + " response status: ", event.Status);
                  if (event.Status == "404") {
                      callback(false);
