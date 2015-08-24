@@ -1,38 +1,30 @@
 
-var Handlers = function(muon) {
+exports.init = function(muon) {
     module.muon = muon;
 };
 
-Handlers.prototype.findUser = function () {
+exports.findUser = function (headers, data, respond) {
+    respond({
+        message: "You great wazzock!"
+    });
+};
+
+exports.addUser = function(headers, data, respond) {
 
 };
 
-Handlers.prototype.addUser = function() {
+exports.removeUser = function(headers, data, respond) {
 
 };
 
-Handlers.prototype.removeUser = function() {
+exports.updateUser = function(headers, data, respond) {
 
 };
 
-Handlers.prototype.updateUser = function() {
+exports.loginUser = function(headers, data, respond) {
 
 };
 
-Handlers.prototype.loginUser = function() {
+exports.showAllUsers = function(headers, data, respond) {
 
 };
-
-Handlers.prototype.showAllUsers = function() {
-
-};
-
-Handlers.prototype.addUser = function() {
-
-};
-
-Handlers.prototype.addUser = function() {
-
-};
-
-module.exports = Handlers;
