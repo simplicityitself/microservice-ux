@@ -1,12 +1,17 @@
+var muonCore = require("muon-core");
+require('sexylog');
+assert = require('assert');
 
-
-
+var muonSystem = muonCore.generateMuon();
 
 
 describe('Demo-user-service test', function(){
 
           it('injects expected projections', function(done){
                // use muon to view inserted projections in eventstore
+               moun.resource.query('muon://eventsotre/projection/blah-name', function() {
+                    // ok assert what you expect
+               });
           });
 
           it('adds user', function(done){
