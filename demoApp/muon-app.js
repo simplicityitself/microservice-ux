@@ -22,7 +22,7 @@ insert_projections(["listAllUsers.js", "listUserByID.js"], function(status) {
 function startDemoUserService() {
 
     muonSystem.resource.onCommand('/add-user', function() {
-
+        //
     });
 
     muonSystem.resource.onCommand('/remove-user', function() {
