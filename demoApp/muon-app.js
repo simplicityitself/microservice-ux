@@ -32,7 +32,38 @@ function activateEndpoints(callback, value) {
     //
     //});
 
-    return callback();
+
+function startDemoUserService() {
+
+    muonSystem.resource.onCommand('/add-user', function() {
+
+    });
+
+    muonSystem.resource.onCommand('/remove-user', function() {
+
+    });
+
+    muonSystem.resource.onCommand('/update-user', function() {
+
+    });
+
+    muonSystem.resource.onCommand('/login-user', function() {
+
+    });
+
+    muonSystem.resource.onQuery('/find-user', function() {
+
+    });
+
+
+    muonSystem.resource.onQuery('/show-all-users', function() {
+
+    });
+
+    muonSystem.resource.onQuery('/logins?from&to', function() {
+
+    });
+
 }
 
 function insert_projection(projectionName) {
