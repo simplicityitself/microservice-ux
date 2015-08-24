@@ -5,6 +5,9 @@ assert = require('assert');
 
 var muon = muonCore.generateMuon();
 
+// This tests the demo-user-service as if it were a real service running within muon
+// This test should help anyone ascertain that the paltform is working correctly
+
 describe('Demo-user-service test', function () {
 
     before(function(done) {
