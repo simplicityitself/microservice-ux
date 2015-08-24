@@ -92,7 +92,7 @@ function insert_projection(projectionName, callback) {
 
              logger.info("insert_projection() inserting projection via muon: " + projectionName);
                //callback({event: {}, payload: {}});
-             muonSystem.resource.command('muon://event-store/projections', projectionWrapper, function (event, payload){
+             muonSystem.resource.command('muon://eventstore/projections', projectionWrapper, function (event, payload){
                  logger.info("projection " + projectionName + " response status: ", event.Status);
                  if (event.Status == "404") {
                      callback(false);
