@@ -14,20 +14,10 @@ var eventEmitter = new events.EventEmitter();
 
 // configure app - should be from file or the environment
 var myConfig = {};
-  myConfig.amqp_server = 'amqp://muon:microservices@localhost:5672';
-  myConfig.servicename = "demoapp";
-  myConfig.eventstore = "photon";
+  myConfig.eventstore = "eventstore";
   myConfig.useport = 3010;
 
-var amqp = muonCore.amqpTransport(myConfig.amqp_server);
-
-//Define TagCloudService muon instance for the communications to use
-var muonSystem = muonCore.muon(myConfig.servicename, amqp.getDiscovery(), [
-    ["my-tag", "tck-service", "node-service"]
-]);
-
-//Connect transport stream to the instance
-muonSystem.addTransport(amqp);
+var muonSystem = muonCore.generateMuon();
 
 //Get list of existing projections and add if required
 muonSystem.resource.query('muon://'+ myConfig.eventstore +'/projection-keys', function(event, payload) {

@@ -9,9 +9,7 @@ var debug       = require('debug')("mainApp");
 
 // configure app - should be from file or the environment
 var myConfig = {};
-  myConfig.amqp_server  = 'amqp://muon:microservices@localhost:5672';
-  myConfig.servicename  = "demoapp";
-  myConfig.eventstore   = "photon";
+  myConfig.eventstore   = "eventstore";
   myConfig.useport      = 3010;   //Change this to 3020 if you want the app to run locally
 
 var app     = express();
@@ -25,16 +23,7 @@ app.use(bodyParser.json());
 
 //Configure Muon and AMQP
 try{
-  debug('Connecting to AMQP server - ' + myConfig.amqp_server);
-  var amqp = muonCore.amqpTransport(myConfig.amqp_server);
-
-  //Define muon instance for the communications to use
-  var muonSystem = muonCore.muon(myConfig.servicename, amqp.getDiscovery(), [
-      ["my-tag", "tck-service", "node-service"]
-  ]);
-
-  //Connect transport stream to the instance
-  muonSystem.addTransport(amqp);
+  var muonSystem = muonCore.generateMuon();
 }
 catch(err){
   debug('Could not connect to the AMQP server');
