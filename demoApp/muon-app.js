@@ -58,9 +58,9 @@ function insert_projections(projections,clientCallback) {
     for (var i = 0 ; i < projections.length ; i++) {
         var inner_callback = function(result) {
             callbackCount++;
-            logger.info("insert_projection() callbackCount=" + callbackCount);
+            logger.info("insert_projection() callbackCount=" + callbackCount + ", result=" + result);
             if (callbackCount == projections.length) {
-                logger.info("insert_projection() all prjections inserted. DONE!");
+                logger.info("insert_projection() all projections inserted. DONE!");
                 clientCallback(true);
             }
         };
@@ -88,11 +88,17 @@ function insert_projection(projectionName, callback) {
 
              var photon_url = "";
 
-               logger.info("insert_projection() inserting projection via muon: " + projectionName);
-               callback({event: {}, payload: {}});
-             //muonSystem.resource.command('muon://photon/projections', projectionWrapper, function (event, payload){
-             //    callback({event: event, payload: payload});
-             //});
+             logger.info("insert_projection() inserting projection via muon: " + projectionName);
+               //callback({event: {}, payload: {}});
+             muonSystem.resource.command('muon://photon/projections', projectionWrapper, function (event, payload){
+                 logger.info("projection " + projectionName + " response status: ", event.Status);
+                 if (event.Status == "404") {
+                     callback(false);
+                } else {
+                     callback(true);
+                }
+                 callback({event: event, payload: payload});
+             });
 
       }
     });
@@ -105,7 +111,8 @@ function check_projection(projectionName, callback) {
     // Not yet finished...
     muonSystem.resource.query('muon://'+ myConfig.eventstore +'/projection/' + projectionName, function(event, payload) {
 
-           if (event.status != 404) {
+           if (event.Status != 404 || event.Status != "404") {
+
                 callback(true);
            } else {
                 callback(false);
