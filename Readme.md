@@ -41,25 +41,57 @@ Navigate to the muon platform portal page to take a test drive around the platfo
   http://localhost:8080/
 ```
 
-### Now, do something useful!
+### Now, try the HTTP<->Muon Gateway
 
-We can now use the simple demoApp to test the system - view the README  
+See if the Gateway is running from your local machine:
+```bash
+curl -X GET -H "Cache-Control: no-cache"  'http://localhost:9001/'
+```
+or
+```bash
+curl -X GET -H "Cache-Control: no-cache"  'http://localhost:9001/discover'
+```
+If you get no response we'll need to start the gateway on the Vagrant box.
+
+```bash
+vagrant ssh
+cd /home/vagrant/muon/mgateway
+sudo forever start -l forever.log -a --uid "mgateway" gateway_v2.js
+```
+This will start the gateway as a forever daemon with logs going into the forever.log file. To stop the gateway use:
+```bash
+sudo forever stop mgateway
+```
+
+To check the gateway is working as expected:
+```bash
+vagrant ssh
+cd /home/vag/muon/mgateway
+mocha
+```
+This will run a series of tests that insert events and projections into the local Photon eventstore. *(F.Y.I. If the tests are re-run, some may fail as the tests assume an empty eventstore!)* Running other cURL commands on your local machine should now start to return user data.
+```bash
+curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection-keys'
+
+curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection?projection-name=UserList'
+```
 
 ### And there's more! Exploring under the hood...  
 
-using the muon command to discover
+using the muon command to discover running services
 
 ```bash
   vagrant ssh
-  root@vagrant-ubuntu-trusty-64: muon -d local discover
-   [ { identifier: 'photon',
-    resourceConnections: [ 'amqp://muon:microservices@muonhost' ],
-    streamConnections: [ 'amqp://muon:microservices@muonhost' ],
-    tags: [ 'photon', 'helios' ] },
-   { identifier: 'cli',
-    tags: [ [] ],
-    resourceConnections: [ 'amqp://muon:microservices@172.28.128.3:5672' ],
-    stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
+  root@vagrant-ubuntu-trusty-64: sudo muon -d local discover
+
+  Active Services
+  -----------------------------------------------------------------------------------------
+  name          url                  tags                             Muon Protocol Version
+  ------------  -------------------  -------------------------------  ---------------------
+  mgateway      muon://mgateway      my-tag,tck-service,muon-gateway  5
+  photon        muon://photon        photon,helios                    5
+  cli           muon://cli           cli,node
+
 ```
 
 
@@ -71,7 +103,9 @@ Check projection loaded in to photon:
  http://localhost:3000/projection-keys
 ```
 
+### Simple DemoApp
 
+See the README.
 
 
 ### Getting a new(er) version of the vagrant box
