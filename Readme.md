@@ -10,7 +10,7 @@ By curating *best-of-breed infrastructure* and blending in a *coherent deploymen
 
 ## Your First Time with *Microservices UX*
 
-It's never easy on your first time ... but we've done our best to make it as easy as possible to get up and running and using Microservices UX as quickly as possible. 
+It's never easy on your first time ... but we've done our best to make it as easy as possible to get up and running and using Microservices UX as quickly as possible.
 
 ### Prerequisites
 
@@ -24,42 +24,32 @@ To get up and running with Microserives UX you'll need the following tools insta
 
 ### Get the base platform running locally within a vagrant virtual machine
 
-```
+```bash
   mkdir muon-platform-demo
   cd muon-platform-demo
   vagrant box add muon-platform-demo https://microux.s3.amazonaws.com/muon-platform-demo.box
   vagrant init muon-platform-demo
   vagrant up
 ```
- 
- 
+
+
 ### Youre done! Time to Kick the tyres!
 
 Navigate to the muon platform portal page to take a test drive around the platform's core services.
 
 ```
-  http://localhost:8080/ 
+  http://localhost:8080/
 ```
 
+### Now, do something useful!
 
+We can now use the simple demoApp to test the system - view the README  
 
-### Now, do somethign useful! 
-
-Next, lets get a demo mciroservices app deployed and running.
-
-```
-  git clone https://github.com/simplicityitself/microservice-ux
-  cd microservice-ux/demoApp
-```
-  
-  view Readme.adoc
-  
-  
 ### And there's more! Exploring under the hood...  
 
-using the muon command to disover
-  
-```
+using the muon command to discover
+
+```bash
   vagrant ssh
   root@vagrant-ubuntu-trusty-64: muon -d local discover
    [ { identifier: 'photon',
@@ -71,12 +61,12 @@ using the muon command to disover
     resourceConnections: [ 'amqp://muon:microservices@172.28.128.3:5672' ],
     stream: [ 'amqp://muon:microservices@172.28.128.3:5672' ] } ]
 ```
-    
-    
+
+
 ### Photon Event Store
 
 Check projection loaded in to photon:
-    
+
 ```
  http://localhost:3000/projection-keys
 ```
