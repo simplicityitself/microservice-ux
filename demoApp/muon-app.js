@@ -43,4 +43,3 @@ function activateEndpoints(callback, value) {
         console.log("Asked to cancel?");
     };
 }
-
