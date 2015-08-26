@@ -7,24 +7,29 @@ var muonSystem = muonCore.generateMuon();
 
 var user1 = {"id" : "00001",
             "fname" : "J-Bo",
-            "sname" : "Nickname",
-            "password" : "password"};
+            "lname" : "Nickname",
+            "password" : "password",
+            "Added": Date.now()};
 var user2 = {"id" : "00002",
             "fname" : "Samuel",
-            "sname" : "Sirname",
-            "password" : "postit"};
+            "lname" : "Sirname",
+            "password" : "postit",
+            "Added": Date.now()};
 var user3 = {"id" : "00003",
             "fname" : "Sergio",
-            "sname" : "Haircut",
-            "password" : "smokebreak"};
+            "lname" : "Haircut",
+            "password" : "smokebreak",
+            "Added": Date.now()};
 var user4 = {"id" : "00004",
             "fname" : "Nick",
-            "sname" : "Lovesmuon",
-            "password" : "fuuuuuuuuu"};
+            "lname" : "Lovesmuon",
+            "password" : "fuuuuuuuuu",
+            "Added": Date.now()};
 var user5 = {"id" : "00005",
             "fname" : "Ginger",
-            "sname" : "Hammond",
-            "password" : "incarcerated"};
+            "lname" : "Hammond",
+            "password" : "incarcerated",
+            "Added": Date.now()};
 
 
 describe('Demo-user-service test', function(){
@@ -43,7 +48,21 @@ describe('Demo-user-service test', function(){
 
           it('adds user', function(done){
                 // add 5 users here
-                muonSystem.resource.command('muon://demoapp/add-user', [user1,user2,user3,user4,user5] , function(event, payload) {
+                var thisEvent = {
+                              "service-id": "muon://demoapp",
+                              "local-id": 123456789,
+                              "payload": [{"user1": user1},
+                                          {"user2": user2},
+                                          {"user3": user3},
+                                          {"user4": user4},
+                                          {"user5": user5},
+                                        ],
+                              "stream-name": "users",
+                              "server-timestamp": Date.now()
+                            };
+
+
+                muonSystem.resource.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
                     // ok assert what you expect here:
                     assert(event.Status != '404');
                     assert(payload);

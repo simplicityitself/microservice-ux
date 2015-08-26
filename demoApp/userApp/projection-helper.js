@@ -26,7 +26,7 @@ function projection_check_and_install(projectionName, callback) {
     }, {
         projectionName: projectionName,
         projectionExists: false
-    })
+    });
 }
 
 function install_projection(callback, value) {
@@ -78,5 +78,5 @@ function check_projection(callback, value) {
     });
     return function cancel(message) {
         logger.warn("Attempting to cancel an operation " + message);
-    }
+    };
 }
