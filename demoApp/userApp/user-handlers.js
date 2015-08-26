@@ -4,8 +4,10 @@ exports.init = function(muon) {
 };
 
 exports.findUser = function (headers, data, respond) {
+    logger.info("In find user");
+    logger.info(data);
     respond({
-        message: "You great wazzock!"
+        message: "Find user!"
     });
 };
 
@@ -65,17 +67,34 @@ exports.addUser = function(headers, data, respond) {
 };
 
 exports.removeUser = function(headers, data, respond) {
-
+  logger.info("In remove user");
+  logger.info(data);
+    respond({
+        message: "Remove user"
+    });
 };
 
 exports.updateUser = function(headers, data, respond) {
-
+  logger.info("In update user");
+  logger.info(data);
+    respond({
+        message: "Update user"
+    });
 };
 
 exports.loginUser = function(headers, data, respond) {
-
+  logger.info("In loginuser");
+  logger.info(data);
+    respond({
+        message: "Login user"
+    });
 };
 
 exports.showAllUsers = function(headers, data, respond) {
+  logger.info("In list all users");
+  logger.info(data);
 
+    respond({
+      message: "All users found"
+    });
 };
