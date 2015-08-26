@@ -94,7 +94,44 @@ exports.showAllUsers = function(headers, data, respond) {
   logger.info("In list all users");
   logger.info(data);
 
-    respond({
-      message: "All users found"
-    });
+  var params = {"projection-name": "listAllUsers"};
+
+  try{
+    //query: url, callback, params
+    module.muon.resource.query('muon://photon/projection', function(event, payload) {
+
+      logger.info('-------------------------');
+      logger.info(event);
+      logger.info('-------------------------');
+      logger.info(payload);
+      logger.info('-------------------------');
+      logger.info("Returned something from Service endpoint");
+
+      //Separate results if necessary
+      if (payload.hasOwnProperty('current-value')) {
+        thisPayload = payload['current-value'];
+      }
+      else {
+        thisPayload = payload;
+      }
+
+      respond({ message: 'showAllUsers response', info: thisPayload});
+
+    }, params);
+  }
+  catch (e) {
+    logger.warn("There was an error");
+    logger.warn(e);
+    respond({ message: 'There was an error', error: e});
+  }
+
+
+
+
+
+
+
+
+
+
 };

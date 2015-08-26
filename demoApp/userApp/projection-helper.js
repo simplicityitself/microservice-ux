@@ -66,11 +66,7 @@ function install_projection(callback, value) {
             //callback({event: {}, payload: {}});
             module.muonSystem.resource.command('muon://photon/projections', projectionWrapper, function (event, payload) {
                 logger.info("projection " + value.projectionName + " response status: ", event.Status);
-                //if (event.Status == "404") {
-                //    callback(false);
-                //} else {
-                //    callback(true);
-                //}
+
                 callback({event: event, payload: payload});
             });
 
