@@ -5,14 +5,19 @@ module.exports.init = function(muon) {
     module.muonSystem = muon;
 };
 
-module.exports.install_list_user_by_id = function(callback, value) {
-    logger.info("listUserByID projection init");
-    projection_check_and_install("listUserByID", callback);
+module.exports.install_list_users_by_id = function(callback, value) {
+    logger.info("listUsersByID projection init");
+    projection_check_and_install("listUsersByID", callback);
 };
 
-module.exports.install_list_users_projection = function(callback, value) {
-    logger.info("listAllUsers projection init");
-    projection_check_and_install("listAllUsers", callback);
+module.exports.install_list_users_by_lastname = function(callback, value) {
+    logger.info("listUsersByLastName projection init");
+    projection_check_and_install("listUsersByLastName", callback);
+};
+
+module.exports.install_list_users_by_username = function(callback, value) {
+    logger.info("listUsersByUserName projection init");
+    projection_check_and_install("listUsersByUserName", callback);
 };
 
 function projection_check_and_install(projectionName, callback) {

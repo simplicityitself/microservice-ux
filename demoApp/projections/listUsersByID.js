@@ -22,6 +22,7 @@ function eventHandler(state, event) {
   state[user.id].first = user.first;
   state[user.id].last = user.last;
   state[user.id].password = user.password;
+  state[user.id].active = user.active;
 
   return state;
 

@@ -24,6 +24,7 @@ function eventHandler(state, event) {
   state[key].first = user.first;
   state[key].last = user.last;
   state[key].password = user.password;
+  state[key].active = user.active;
 
   return state;
 }
