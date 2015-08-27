@@ -1,4 +1,6 @@
 
+var uuid        = require('uuid');
+
 exports.init = function(muon) {
     module.muon = muon;
 };
@@ -12,57 +14,56 @@ exports.findUser = function (headers, data, respond) {
 };
 
 exports.addUser = function(headers, data, respond) {
-  console.log("headers: " + headers);
-  console.log("data: " + data);
-  console.log("respond: " + respond);
 
+  logger.info("Add user event received");
   var users = data.payload;
+  logger.info(users);
 
   var callback = function(event, payload) {
-    debug("Add user event received");
-    debug('-------------------------');
-    debug(event);
-    debug('-------------------------');
-    debug(payload);
-    debug('-------------------------');
+    logger.info('-------------------------');
+    logger.info(payload);
+    logger.info('-------------------------');
 
     if (payload.correct == 'true') {
-      res.json({ message: 'User ' + user[i].fname + ' ' + user[i].lname +' created!', userID: user[i].id });
+      respond({ message: 'User created!'});
     }
     else {
-      res.json({ message: 'Error with Photon insert for user creation'});
+      respond({ message: 'Error with Photon insert for user creation'});
     }
   };
 
   for(var i=0;i<users.length;i++){
 
-    if(user[i].hasOwnProperty('fname') && user[i].hasOwnProperty('lname')){
+    var thisUser = users[i].user;
+
+    if(thisUser.hasOwnProperty('fname') && thisUser.hasOwnProperty('lname')){
       //Add ID
-      user[i].id = uuid.v1();
+      thisUser.id = uuid.v1();
 
       //Create event for injection into EventStore
       var thisEvent = {
-                    "service-id": "muon://" + myConfig.servicename,
+                    "service-id": "muon://photon/events",
                     "local-id": uuid.v4(),
                     "payload": {"user": {
-                                          "id": user[i].id,
-                                          "first": user[i].fname,
-                                          "last": user[i].lname,
-                                          "password": user[i].password,
+                                          "id": thisUser.id,
+                                          "first": thisUser.fname,
+                                          "last": thisUser.lname,
+                                          "password": thisUser.password,
+                                          "active": true,
                                           "Added": Date.now()}},
                     "stream-name": "users",
                     "server-timestamp": Date.now()
                   };
 
-      debug("Posting event to eventstore: ");
-      debug(thisEvent);
+      logger.info("Posting event to eventstore: ");
 
       //command: url, event, callback
-      muonSystem.resource.command('muon://' + myConfig.eventstore + '/events', thisEvent, callback);
+      module.muon.resource.command('muon://photon/events', thisEvent, callback);
     }
     else {
-      res.json({ message: 'User not created!' });
+      respond({ message: 'User not created!' });
     }
+
   }
 };
 
@@ -124,14 +125,4 @@ exports.showAllUsers = function(headers, data, respond) {
     logger.warn(e);
     respond({ message: 'There was an error', error: e});
   }
-
-
-
-
-
-
-
-
-
-
 };
