@@ -90,8 +90,6 @@ exports.addUser = function(headers, data, respond) {
 
     var thisUser = users[i].user;
 
-    logger.info("**************************************************************" , thisUser);
-
     if(thisUser.hasOwnProperty('fname') && thisUser.hasOwnProperty('lname')){
 
       //Add ID if required
