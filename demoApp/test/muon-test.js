@@ -156,17 +156,6 @@ describe('Demo-user-service test', function(){
         // login one of the users several times
     });
 
-    it('finds a user', function(done){
-        // fidn one of the five users
-        var userId = "00003";
-        muonSystem.resource.query('muon://demoapp/find-user?id=' + userId, function(event, payload) {
-            // ok assert what you expect here:
-            assert(event.Status != '404');
-            assert(payload);
-            done();
-        });
-    });
-
     it('show all users', function(done){
         // show all users
         muonSystem.resource.query('muon://demoapp/show-all-users', function(event, payload) {

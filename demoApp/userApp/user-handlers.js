@@ -200,7 +200,7 @@ exports.updateUser = function(headers, data, respond) {
                                         "last": thisUser.lname,
                                         "password": thisUser.password,
                                         "active": true,
-                                        "Added": Date.now()}},
+                                        "Added": thisUser.added}},
                   "stream-name": "users",
                   "server-timestamp": Date.now()
                 };
