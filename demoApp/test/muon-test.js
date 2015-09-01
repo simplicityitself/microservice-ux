@@ -5,31 +5,21 @@ assert = require('assert');
 
 var muonSystem = muonCore.generateMuon();
 
-var user1 = {"id" : "00001",
-            "fname" : "J-Bo",
+var user1 = {"fname" : "J-Bo",
             "lname" : "Nickname",
-            "password" : "password",
-            "Added": Date.now()};
-var user2 = {"id" : "00002",
-            "fname" : "Samuel",
+            "password" : "password"};
+var user2 = {"fname" : "Samuel",
             "lname" : "Sirname",
-            "password" : "postit",
-            "Added": Date.now()};
-var user3 = {"id" : "00003",
-            "fname" : "Sergio",
+            "password" : "postit"};
+var user3 = {"fname" : "Sergio",
             "lname" : "Haircut",
-            "password" : "smokebreak",
-            "Added": Date.now()};
-var user4 = {"id" : "00004",
-            "fname" : "Nick",
+            "password" : "smokebreak"};
+var user4 = {"fname" : "Nick",
             "lname" : "Lovesmuon",
-            "password" : "fuuuuuuuuu",
-            "Added": Date.now()};
-var user5 = {"id" : "00005",
-            "fname" : "Ginger",
+            "password" : "fuuuuuuuuu"};
+var user5 = {"fname" : "Ginger",
             "lname" : "Hammond",
-            "password" : "incarcerated",
-            "Added": Date.now()};
+            "password" : "incarcerated"};
 
 
 describe('Demo-user-service test', function(){
@@ -51,22 +41,27 @@ describe('Demo-user-service test', function(){
                 var thisEvent = {
                               "service-id": "muon://demoapp",
                               "local-id": 123456789,
-                              "payload": [{"user1": user1},
-                                          {"user2": user2},
-                                          {"user3": user3},
-                                          {"user4": user4},
-                                          {"user5": user5},
-                                        ],
+                              "payload": [{"user": user1},
+                                          {"user": user2},
+                                          {"user": user3},
+                                          {"user": user4},
+                                          {"user": user5}],
                               "stream-name": "users",
                               "server-timestamp": Date.now()
                             };
 
+                var i = 0;
+
 
                 muonSystem.resource.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
+                    i++;
                     // ok assert what you expect here:
                     assert(event.Status != '404');
                     assert(payload);
-                    done();
+
+                    if(i == 5){
+                        done();
+                    }
                 });
           });
 
@@ -90,8 +85,8 @@ describe('Demo-user-service test', function(){
 
           it('removes user', function(done){
                 // remove a user here
-                var userId = "00002";
-                muonSystem.resource.command('muon://demoapp/remove-user?id=' +userId, function(event, payload) {
+                var userId = {"user" : "00002"};
+                muonSystem.resource.command('muon://demoapp/remove-user', userId, function(event, payload) {
                     // ok assert what you expect here:
                     assert(event.Status != '404');
                     assert(payload);
@@ -130,12 +125,13 @@ describe('Demo-user-service test', function(){
                   // show all logins
                   var from = "";
                   var to = "";
+                  var params = {"from" : from , "to" : to};
                muonSystem.resource.query('muon://demoapp/logins?from=' + from + '&to=' + to, function(event, payload) {
                     // ok assert what you expect here:
                     assert(event.Status != '404');
                     assert(payload);
                     done();
-               });
+               }, params);
           });
 
 });

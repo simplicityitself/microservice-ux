@@ -90,6 +90,8 @@ exports.addUser = function(headers, data, respond) {
 
     var thisUser = users[i].user;
 
+    logger.info("**************************************************************" , thisUser);
+
     if(thisUser.hasOwnProperty('fname') && thisUser.hasOwnProperty('lname')){
 
       //Add ID if required
@@ -344,4 +346,3 @@ exports.showAllUsers = function(headers, data, respond) {
     respond({ message: 'There was an error', error: e});
   }
 };
-
