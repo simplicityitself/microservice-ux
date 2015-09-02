@@ -153,7 +153,7 @@ exports.removeUser = function(headers, data, respond) {
                                         "first": thisUser.fname,
                                         "last": thisUser.lname,
                                         "password": thisUser.password,
-                                        "active": thisUser.active,
+                                        "active": false,
                                         "Added": Date.now()}},
                   "stream-name": "users",
                   "server-timestamp": Date.now()

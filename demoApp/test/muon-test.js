@@ -8,7 +8,7 @@ var muonSystem = muonCore.generateMuon();
 
 var user1 = {"id" : "00001",
             "fname" : "J-Bo",
-            "lname" : "Nickname",
+            "lname" : "Kermit",
             "password" : "password"};
 var user2 = {"id" : "00002",
             "fname" : "Samuel",
@@ -23,8 +23,7 @@ var user4 = {"id" : "00004",
             "lname" : "Lovesmuon",
             "password" : "fuuuuuuuuu"};
 var user5 = {"id" : "00005",
-            "fname" : "Ginger",
-            "lname" : "Hammond",
+             "lname" : "Hammond",
             "password" : "incarcerated"};
 
 
@@ -148,12 +147,52 @@ describe('Demo-user-service test', function(){
 
             muonSystem.resource.query('muon://demoapp/find-user?id=' + userId, function(event, payload) {
                 assert(event.Status == '404');
+                done();
             });
         });
     });
 
     it('login a user', function(done){
         // login one of the users several times
+        var userDets = {"username" : "haircuts",
+                        "password" : "smokebreak" };
+
+        var thisEvent = {
+                        "service-id": "muon://demoapp",
+                        "local-id": 123456789,
+                        "payload": userDets,
+                        "stream-name": "users",
+                        "server-timestamp": Date.now()
+                        };
+
+        muonSystem.resource.command('muon://demoapp/login-user', thisEvent, function(event, payload) {
+            // ok assert what you expect here:
+            assert(event.Status != '404');
+            expect(payload).to.have.property("message");
+            expect(payload).to.have.property("status");
+            done();
+        });
+    });
+
+    it('should fail login with incorrect credentials', function(done){
+        // login one of the users several times
+        var userDets = {"username" : "kermitj",
+                        "password" : "wrong" };
+
+        var thisEvent = {
+                        "service-id": "muon://demoapp",
+                        "local-id": 123456789,
+                        "payload": userDets,
+                        "stream-name": "users",
+                        "server-timestamp": Date.now()
+                        };
+
+        muonSystem.resource.command('muon://demoapp/login-user', thisEvent, function(event, payload) {
+            // ok assert what you expect here:
+            console.log(payload.message);
+            expect(payload.message).to.contain('failed');
+            done();
+        });
     });
 
     it('show all users', function(done){
