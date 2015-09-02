@@ -24,6 +24,8 @@ To get up and running with Microserives UX you'll need the following tools insta
 
 ### Get the base platform running locally within a vagrant virtual machine
 
+***Note! If you've already downloaded and run the microservices ux before, see the "Getting a new(er) version of the box" instructions at the end of this readme first.***
+
 ```bash
   mkdir muon-platform-demo
   cd muon-platform-demo
@@ -33,7 +35,7 @@ To get up and running with Microserives UX you'll need the following tools insta
 ```
 
 
-### Youre done! Time to Kick the tyres!
+### You're done! Time to Kick the tyres!
 
 Navigate to the muon platform portal page to take a test drive around the platform's core services.
 
@@ -76,13 +78,13 @@ curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projectio
 curl -X GET -H "Cache-Control: no-cache" 'http://localhost:9001/photon/projection?projection-name=UserList'
 ```
 
-### And there's more! Exploring under the hood...  
+### And there's more! Exploring using the Muon CLI
 
-using the muon command to discover running services
+You can explore the current running services in overview using the muon command line interface:
 
 ```bash
   vagrant ssh
-  root@vagrant-ubuntu-trusty-64: sudo muon -d local discover
+  root@muon-demo: sudo muon -d local discover
 
   Active Services
   -----------------------------------------------------------------------------------------
@@ -92,6 +94,47 @@ using the muon command to discover running services
   photon        muon://photon        photon,helios                    5
   cli           muon://cli           cli,node
 
+```
+
+Or if you want more detail, hit:
+
+```bash
+  vagrant ssh
+  root@muon-demo:sudo muon -d local -a discover
+  
+  Active Services
+  -----------------------------------------------------------------------------------------
+  name          url                  tags                             Muon Protocol Version
+  ------------  -------------------  -------------------------------  ---------------------
+  node-service  muon://node-service  my-tag,tck-service,node-service  5                    
+  photon        muon://photon        photon,helios                    5                    
+  cli           muon://cli           cli,node                                              
+
+  Reactive Streams
+  ------------------------------------------------
+  Service Name  Stream Name  Url                  
+  ------------  -----------  ---------------------
+  photon        /stream      muon://photon//stream
+
+  Query Endpoints
+  -----------------------------------------------------------------------------
+  Service Name  Endpoint Name             Url                                  
+  ------------  ------------------------  -------------------------------------
+  node-service  /muon/introspect          muon://node-service/muon/introspect  
+  photon        /projection               muon://photon/projection             
+  photon        /muon/introspect/stream   muon://photon/muon/introspect/stream 
+  photon        /muon/introspect/command  muon://photon/muon/introspect/command
+  photon        /projection-keys          muon://photon/projection-keys        
+  photon        /muon/introspect          muon://photon/muon/introspect        
+  photon        /muon/introspect/query    muon://photon/muon/introspect/query  
+
+  Command Endpoints
+  ------------------------------------------------------
+  Service Name  Endpoint Name  Url                      
+  ------------  -------------  -------------------------
+  photon        /projections   muon://photon/projections
+  photon        /events        muon://photon/events
+  
 ```
 
 
@@ -105,7 +148,7 @@ Check projection loaded in to photon:
 
 ### Simple DemoApp
 
-See the README.
+See the demo application [README](https://github.com/simplicityitself/microservice-ux/blob/master/demoApp/README.md).
 
 
 ### Getting a new(er) version of the vagrant box
