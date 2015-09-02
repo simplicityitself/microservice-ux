@@ -24,6 +24,8 @@ To get up and running with Microserives UX you'll need the following tools insta
 
 ### Get the base platform running locally within a vagrant virtual machine
 
+***Note! If you've already downloaded and run the microservices ux before, see the "Getting a new(er) version of the box" instructions at the end of this readme first.***
+
 ```bash
   mkdir muon-platform-demo
   cd muon-platform-demo
@@ -146,7 +148,7 @@ Check projection loaded in to photon:
 
 ### Simple DemoApp
 
-See the README.
+See the demo application [README](https://github.com/simplicityitself/microservice-ux/blob/master/demoApp/README.md).
 
 
 ### Getting a new(er) version of the vagrant box
