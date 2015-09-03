@@ -1,8 +1,10 @@
 # Microservices UX:  *The Microservices User eXperience*
-## Simple Demo App
+
+## Simple Muon Demonstration User Service
 
 ### Installation & Setup
-This app assumes that the Microservices platform has been deployed using Vagrant and you have checked out the demoApp code from GitHub into a local directory. We now need to build the projections for this App on the Photon Eventstore running on the Vagrant box. Go into the local demoApp folder and run:
+
+This app assumes that the Microservices platform has been deployed using Vagrant and you have checked out the demoApp code from GitHub into a local directory. We now need to build the projections for this App on the Photon Eventstore running on the Vagrant box. Go into the local vagrant folder and run:
 
 ```bash
 vagrant ssh
@@ -11,9 +13,10 @@ npm install
 node app.js 
 ```
 
-Open another ssh shell
+Open another ssh shell int he vagrant parent directory for the demo box
 
 ```bash
+vagrant ssh
 mocha
 
   Demo-user-service - Add User
