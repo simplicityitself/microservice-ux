@@ -1,12 +1,12 @@
+/*
+  Muon-core 5.2.0 version - uses local muon.config
+  Long form of muon calls
+*/
+
 var muonCore = require("muon-core");
 var should = require("chai").should();
 var expect = require("chai").expect;
 
-/*
-var amqpUrl = "amqp://muon:microservices@localhost";
-var serviceName = "testing";
-var muonTest = muonCore.generateMuon(serviceName, amqpUrl);
-*/
 var muonTest = muonCore.generateMuon();
 
 var user1 = {"id" : "0002",
