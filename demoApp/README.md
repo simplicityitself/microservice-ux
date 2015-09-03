@@ -17,6 +17,7 @@ Open another ssh shell int he vagrant parent directory for the demo box
 
 ```bash
 vagrant ssh
+cd muon/microservices-ux/demoApp
 mocha
 
   Demo-user-service - Add User
