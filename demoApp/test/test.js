@@ -1,3 +1,11 @@
+/*
+  This page uses Muon-core 5.3.0 to enable running the tests in the same directory structure.
+  It also uses the new shorter muon.command & muon.query format instead of the older
+  muon.resource.command & muon.resource.query
+
+  Until 5.3.0 becomes stable please ignore this as the tests will FAIL
+*/
+
 var muonCore = require("muon-core");
 var should = require("chai").should();
 var expect = require("chai").expect;
@@ -49,7 +57,7 @@ describe('Demo-user-service - Add User', function(){
                 };
 
 
-    muonTest.resource.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload.message).to.equal("User not created!");
         done();
@@ -71,7 +79,7 @@ describe('Demo-user-service - Add User', function(){
                 };
 
 
-    muonTest.resource.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload).to.have.property("userID");
         expect(payload.message).to.equal("User Zippy George created!");
@@ -100,7 +108,7 @@ describe('Demo-user-service - User manipulation', function(){
                 };
 
 
-    muonTest.resource.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/add-user', thisEvent , function(event, payload) {
 
     });
   });
@@ -121,7 +129,7 @@ describe('Demo-user-service - User manipulation', function(){
                 };
 
 
-    muonTest.resource.command('muon://demoapp/update-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/update-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload).to.have.property("userID");
         expect(payload.message).to.equal("User J-Bo Nickname updated!");
@@ -148,7 +156,7 @@ describe('Demo-user-service - User manipulation', function(){
                 };
 
 
-    muonTest.resource.command('muon://demoapp/remove-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/remove-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload).to.have.property("active");
         expect(payload.message).to.equal("User Nick Lovesmuon updated!");
@@ -160,7 +168,7 @@ describe('Demo-user-service - User manipulation', function(){
     var params = {"wrong" : "thing"};
 
     // show user by username
-    muonTest.resource.query('muon://demoapp/find-user', function(event, payload) {
+    muonTest.query('muon://demoapp/find-user', function(event, payload) {
 
       expect(payload).to.have.property("message");
       expect(payload.message).to.equal("Sorry, wrong parameters passed");
@@ -173,7 +181,7 @@ describe('Demo-user-service - User manipulation', function(){
     var params = {"id" : "00000"};
 
     // show user by username
-    muonTest.resource.query('muon://demoapp/find-user', function(event, payload) {
+    muonTest.query('muon://demoapp/find-user', function(event, payload) {
 
       expect(payload).to.have.property("message");
       expect(payload.message).to.equal("Found user");
@@ -187,7 +195,7 @@ describe('Demo-user-service - User manipulation', function(){
     var params = {"username" : "hammondg"};
 
     // show user by username
-    muonTest.resource.query('muon://demoapp/find-user', function(event, payload) {
+    muonTest.query('muon://demoapp/find-user', function(event, payload) {
 
       expect(payload).to.have.property("message");
       expect(payload).to.have.property("info");
@@ -219,7 +227,7 @@ describe('Demo-user-service - User manipulation', function(){
     var params = {"lastname" : "Haircut"};
 
     // show user by last name
-    muonTest.resource.query('muon://demoapp/find-user', function(event, payload) {
+    muonTest.query('muon://demoapp/find-user', function(event, payload) {
 
       expect(payload).to.have.property("message");
       expect(payload).to.have.property("info");
@@ -252,7 +260,7 @@ describe('Demo-user-service - User manipulation', function(){
     var params = {"id" : "0003"};
 
     // show user by ID
-    muonTest.resource.query('muon://demoapp/find-user', function(event, payload) {
+    muonTest.query('muon://demoapp/find-user', function(event, payload) {
 
       expect(payload).to.have.property("message");
       expect(payload).to.have.property("info");
@@ -285,7 +293,7 @@ describe('Demo-user-service - User manipulation', function(){
     var params = {};
 
     // show all users
-    muonTest.resource.query('muon://demoapp/show-all-users', function(event, payload) {
+    muonTest.query('muon://demoapp/show-all-users', function(event, payload) {
 
       expect(payload).to.have.property("message");
       expect(payload).to.have.property("info");
@@ -332,7 +340,7 @@ describe('Demo-user-service - Access control', function(){
                   "server-timestamp": Date.now()
                 };
 
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload).to.have.property("status");
         expect(payload.message).to.equal("User hammondg succcessfully logged in");
@@ -353,7 +361,7 @@ describe('Demo-user-service - Access control', function(){
                   "server-timestamp": Date.now()
                 };
 
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload).to.have.property("status");
         expect(payload.message).to.equal("User hammondg failed to login");
@@ -374,7 +382,7 @@ describe('Demo-user-service - Access control', function(){
                   "server-timestamp": Date.now()
                 };
 
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload.message).to.equal("User lovesmun currently inactive. Login failed.");
         done();
@@ -394,7 +402,7 @@ describe('Demo-user-service - Access control', function(){
                   "server-timestamp": Date.now()
                 };
 
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+    muonTest.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
         expect(payload).to.have.property("message");
         expect(payload.message).to.equal("Incorrect User details. Login failed.");
         done();
