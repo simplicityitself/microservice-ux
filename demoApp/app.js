@@ -30,20 +30,20 @@ workflow(function(value) {
 function activateEndpoints(callback, value) {
     logger.info("Activating endpoints");
 
-    muonSystem.resource.onCommand('/add-user',"", UserHandlers.addUser);
-    muonSystem.resource.onCommand('/remove-user',"", UserHandlers.removeUser);
-    muonSystem.resource.onCommand('/update-user',"", UserHandlers.updateUser);
+    muonSystem.onCommand('/add-user', UserHandlers.addUser);
+    muonSystem.onCommand('/remove-user', UserHandlers.removeUser);
+    muonSystem.onCommand('/update-user', UserHandlers.updateUser);
 
-    muonSystem.resource.onCommand('/login-user',"", UserHandlers.loginUser);
-    muonSystem.resource.onCommand('/logout-user',"", UserHandlers.loginUser);
+    muonSystem.onCommand('/login-user', UserHandlers.loginUser);
+    muonSystem.onCommand('/logout-user', UserHandlers.loginUser);
 
-    muonSystem.resource.onQuery('/find-user', "", UserHandlers.findUser);
-    muonSystem.resource.onQuery('/show-all-users',"Show All Users", UserHandlers.showAllUsers);
+    muonSystem.onQuery('/find-user', UserHandlers.findUser);
+    muonSystem.onQuery('/show-all-users', UserHandlers.showAllUsers);
 
     callback();
 
     //
-    //muonSystem.resource.onQuery('/logins?from&to', function() {
+    //muonSystem.onQuery('/logins?from&to', function() {
     //
     //});
     return function cancel(reason) {

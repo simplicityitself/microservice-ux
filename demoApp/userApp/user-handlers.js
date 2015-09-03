@@ -52,7 +52,7 @@ exports.findUser = function (headers, data, respond) {
   if(bProceed) {
     try{
       //query: url, callback, params
-      module.muon.resource.query('muon://photon/projection', function(event, payload) {
+      module.muon.query('muon://photon/projection', function(event, payload) {
 
         logger.info('-------------------------');
         logger.info(payload);
@@ -115,7 +115,7 @@ exports.addUser = function(headers, data, respond) {
       logger.info("Posting event to eventstore: ");
 
       //command: url, event, callback
-      module.muon.resource.command('muon://photon/events', thisEvent, function(event, payload) {
+      module.muon.command('muon://photon/events', thisEvent, function(event, payload) {
           logger.info('-------------------------');
           logger.info(payload);
           logger.info('-------------------------');
@@ -132,7 +132,6 @@ exports.addUser = function(headers, data, respond) {
     else {
       respond({ message: 'User not created!' });
     }
-
   }
 };
 
@@ -162,7 +161,7 @@ exports.removeUser = function(headers, data, respond) {
     logger.info("Posting event to eventstore: ");
 
     //command: url, event, callback
-    module.muon.resource.command('muon://photon/events', thisEvent, function(event, payload) {
+    module.muon.command('muon://photon/events', thisEvent, function(event, payload) {
         logger.info('-------------------------');
         logger.info(payload);
         logger.info('-------------------------');
@@ -208,7 +207,7 @@ exports.updateUser = function(headers, data, respond) {
     logger.info("Posting event to eventstore: ");
 
     //command: url, event, callback
-    module.muon.resource.command('muon://photon/events', thisEvent, function(event, payload) {
+    module.muon.command('muon://photon/events', thisEvent, function(event, payload) {
         logger.info('-------------------------');
         logger.info(payload);
         logger.info('-------------------------');
@@ -244,7 +243,7 @@ exports.loginUser = function(headers, data, respond) {
   //Get user & check password
   var params = {"username" : login.username};
 
-  module.muon.resource.query('muon://demoapp/find-user', function(event, payload) {
+  module.muon.query('muon://demoapp/find-user', function(event, payload) {
 
     logger.info(payload);
 
@@ -278,7 +277,7 @@ exports.loginUser = function(headers, data, respond) {
                     };
 
       //command: url, event, callback
-      module.muon.resource.command('muon://photon/events', thisEvent, function(event, payload) {
+      module.muon.command('muon://photon/events', thisEvent, function(event, payload) {
           logger.info('-------------------------');
           logger.info(payload);
           logger.info('-------------------------');
@@ -320,7 +319,7 @@ exports.showAllUsers = function(headers, data, respond) {
 
   try{
     //query: url, callback, params
-    module.muon.resource.query('muon://photon/projection', function(event, payload) {
+    module.muon.query('muon://photon/projection', function(event, payload) {
 
       logger.info('-------------------------');
       logger.info(payload);

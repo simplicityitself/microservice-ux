@@ -69,7 +69,7 @@ function install_projection(callback, value) {
 
             logger.info("insert_projection() inserting projection via muon: " + value.projectionName);
             //callback({event: {}, payload: {}});
-            module.muonSystem.resource.command('muon://photon/projections', projectionWrapper, function (event, payload) {
+            module.muonSystem.command('muon://photon/projections', projectionWrapper, function (event, payload) {
                 logger.info("projection " + value.projectionName + " response status: ", event.Status);
 
                 callback({event: event, payload: payload});
@@ -87,7 +87,7 @@ function check_projection(callback, value) {
 
     var params = {"projection-name": value.projectionName};
 
-    module.muonSystem.resource.query('muon://photon/projection', function(event, payload) {
+    module.muonSystem.query('muon://photon/projection', function(event, payload) {
 
         if (payload === null) {
             logger.info("Projection " + value.projectionName + " doesn't exist in the photon, needs to be installed");
