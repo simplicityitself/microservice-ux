@@ -29,7 +29,7 @@ To get up and running with Microserives UX you'll need the following tools insta
 ```bash
   mkdir muon-platform-demo
   cd muon-platform-demo
-  vagrant box add muon-platform-demo https://microux.s3.amazonaws.com/muon-platform-demo.box
+  vagrant box add muon-platform-demo https://microux.s3.amazonaws.com/muon-platform-demo-v2.box
   vagrant init muon-platform-demo
   vagrant up
 ```
