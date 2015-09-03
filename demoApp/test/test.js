@@ -288,7 +288,7 @@ describe('Demo-user-service - User manipulation', function(){
     }, params);
   });
 
-
+/*
   it('should show all users', function(done){
     var params = {};
 
@@ -324,7 +324,10 @@ describe('Demo-user-service - User manipulation', function(){
 
     }, params);
   });
+*/  
+  
 });
+
 
 describe('Demo-user-service - Access control', function(){
   it('should login a user', function(done){
