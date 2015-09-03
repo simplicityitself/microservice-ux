@@ -2,6 +2,11 @@ var muonCore = require("muon-core");
 var should = require("chai").should();
 var expect = require("chai").expect;
 
+/*
+var amqpUrl = "amqp://muon:microservices@localhost";
+var serviceName = "testing";
+var muonTest = muonCore.generateMuon(serviceName, amqpUrl);
+*/
 var muonTest = muonCore.generateMuon();
 
 var user1 = {"id" : "0002",
@@ -147,88 +152,6 @@ describe('Demo-user-service - User manipulation', function(){
         expect(payload).to.have.property("message");
         expect(payload).to.have.property("active");
         expect(payload.message).to.equal("User Nick Lovesmuon updated!");
-        done();
-    });
-  });
-
-  it('should login a user', function(done){
-
-     var thisEvent = {
-                  "service-id": "muon://demoapp",
-                  "local-id": 123456789,
-                  "payload": {
-                              "username" : "hammondg",
-                              "password" : "incarcerated"
-                            },
-                  "stream-name": "access",
-                  "server-timestamp": Date.now()
-                };
-
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
-        expect(payload).to.have.property("message");
-        expect(payload).to.have.property("status");
-        expect(payload.message).to.equal("User hammondg succcessfully logged in");
-        done();
-    });
-  });
-
-  it('should reject a bad password from a known user', function(done){
-
-     var thisEvent = {
-                  "service-id": "muon://demoapp",
-                  "local-id": 123456789,
-                  "payload": {
-                              "username" : "hammondg",
-                              "password" : "wrong"
-                            },
-                  "stream-name": "access",
-                  "server-timestamp": Date.now()
-                };
-
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
-        expect(payload).to.have.property("message");
-        expect(payload).to.have.property("status");
-        expect(payload.message).to.equal("User hammondg failed to login");
-        done();
-    });
-  });
-
-  it('should reject and notify login attempts from inactive or removed users', function(done){
-
-     var thisEvent = {
-                  "service-id": "muon://demoapp",
-                  "local-id": 123456789,
-                  "payload": {
-                              "username" : "lovesmun",
-                              "password" : "fuuuuuuuuu"
-                            },
-                  "stream-name": "access",
-                  "server-timestamp": Date.now()
-                };
-
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
-        expect(payload).to.have.property("message");
-        expect(payload.message).to.equal("User lovesmun currently inactive. Login failed.");
-        done();
-    });
-  });
-
-  it('should reject login attempts from unknown users', function(done){
-
-     var thisEvent = {
-                  "service-id": "muon://demoapp",
-                  "local-id": 123456789,
-                  "payload": {
-                              "username" : "blah-blah",
-                              "password" : "blip-blip"
-                            },
-                  "stream-name": "access",
-                  "server-timestamp": Date.now()
-                };
-
-    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
-        expect(payload).to.have.property("message");
-        expect(payload.message).to.equal("Incorrect User details. Login failed.");
         done();
     });
   });
@@ -392,6 +315,90 @@ describe('Demo-user-service - User manipulation', function(){
       done();
 
     }, params);
+  });
+});
+
+describe('Demo-user-service - Access control', function(){
+  it('should login a user', function(done){
+
+     var thisEvent = {
+                  "service-id": "muon://demoapp",
+                  "local-id": 123456789,
+                  "payload": {
+                              "username" : "hammondg",
+                              "password" : "incarcerated"
+                            },
+                  "stream-name": "access",
+                  "server-timestamp": Date.now()
+                };
+
+    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+        expect(payload).to.have.property("message");
+        expect(payload).to.have.property("status");
+        expect(payload.message).to.equal("User hammondg succcessfully logged in");
+        done();
+    });
+  });
+
+  it('should reject a bad password from a known user', function(done){
+
+     var thisEvent = {
+                  "service-id": "muon://demoapp",
+                  "local-id": 123456789,
+                  "payload": {
+                              "username" : "hammondg",
+                              "password" : "wrong"
+                            },
+                  "stream-name": "access",
+                  "server-timestamp": Date.now()
+                };
+
+    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+        expect(payload).to.have.property("message");
+        expect(payload).to.have.property("status");
+        expect(payload.message).to.equal("User hammondg failed to login");
+        done();
+    });
+  });
+
+  it('should reject and notify login attempts from inactive or removed users', function(done){
+
+     var thisEvent = {
+                  "service-id": "muon://demoapp",
+                  "local-id": 123456789,
+                  "payload": {
+                              "username" : "lovesmun",
+                              "password" : "fuuuuuuuuu"
+                            },
+                  "stream-name": "access",
+                  "server-timestamp": Date.now()
+                };
+
+    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+        expect(payload).to.have.property("message");
+        expect(payload.message).to.equal("User lovesmun currently inactive. Login failed.");
+        done();
+    });
+  });
+
+  it('should reject login attempts from unknown users', function(done){
+
+     var thisEvent = {
+                  "service-id": "muon://demoapp",
+                  "local-id": 123456789,
+                  "payload": {
+                              "username" : "blah-blah",
+                              "password" : "blip-blip"
+                            },
+                  "stream-name": "access",
+                  "server-timestamp": Date.now()
+                };
+
+    muonTest.resource.command('muon://demoapp/login-user', thisEvent , function(event, payload) {
+        expect(payload).to.have.property("message");
+        expect(payload.message).to.equal("Incorrect User details. Login failed.");
+        done();
+    });
   });
 
   it('should show login activity between two dates');
