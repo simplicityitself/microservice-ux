@@ -1,0 +1,49 @@
+html{
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    font-family: Gill Sans, sans-serif;
+    font-size: 18px;
+    margin: 0px;
+}
+
+#content {
+    height: 100%;
+}
+
+.user-forms{
+    display: inline-block;
+    height: 100%;
+    width: 33%;
+    min-width: 320px;
+    border-right: solid 2px;
+    padding: 50px 0px;
+}
+
+.form{
+    margin: 30px auto;
+    padding: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.form label{
+    float: left;
+        margin: 10px 25px 5px;
+}
+
+.form button{
+    margin-top: 20px;
+    width: 150px;
+    height: 25px;
+    background-color: #5CD65C;
+    border-radius: 5px;
+}
+
+.form input[type="text"], .form input[type="password"]{
+    width: 250px;
+    height: 25px;
+    font-size: 18px;
+}
