@@ -7,7 +7,7 @@ var App = React.createClass({
         };
     },
     render: function() {
-        return(<UserForm />);
+        return(<UserForm url="http://localhost:9001"/>);
     }
 
 });
@@ -15,8 +15,54 @@ var App = React.createClass({
 var UserForm = React.createClass({
     getInitialState: function () {
         return {
-        form: 'login'
+        user: null
         };
+    },
+    register: function() {
+        var comp = this;
+        var payload = { first: this.refs.fname.getDOMNode().value,
+                        last: this.refs.sname.getDOMNode().value,
+                        email: this.refs.email.getDOMNode().value,
+                        password: this.refs.password.getDOMNode().value,
+                        stream: "users"
+                      };
+        ohSnap('Yeeaahh! You are now registered.', 'green');
+
+        $.ajax({
+            url: this.props.url + "/demoapp/add-user?item=user",
+            contentType: 'application/x-www-form-urlencoded',
+            type: 'POST',
+            data: payload,
+            success: function() {
+                alert('success');
+                ohSnap('Yeeaahh! You are now registered.', 'green');
+            },
+            error: function(xhr, status, err) {
+                console.error(comp.props.url, status, err.toString());
+                alert('error');
+            }
+        });
+    },
+    login: function() {
+        var comp = this;
+        var payload = { username: this.refs.username.getDOMNode().value,
+                        password: this.refs.loginpass.getDOMNode().value,
+                        stream: "access"
+                      };
+
+        $.ajax({
+            url: this.props.url + "/demoapp/login-user",
+            contentType: 'application/x-www-form-urlencoded',
+            type: 'POST',
+            data: payload,
+            success: function() {
+                alert('success');
+            },
+            error: function(xhr, status, err) {
+                console.error(comp.props.url, status, err.toString());
+                alert('error');
+            }
+        });
     },
     render: function() {
         var regForm = (
@@ -37,7 +83,7 @@ var UserForm = React.createClass({
                 <br/>
                 <input type="password" ref="password" />
                 <br/>
-                <button type="button">Register</button>
+                <button type="button" onClick={this.register}>Register</button>
             </div>);
         var loginForm = (
             <div className="form">
@@ -47,9 +93,9 @@ var UserForm = React.createClass({
                 <br/>
                 <label>Password</label>
                 <br/>
-                <input type="password" ref="password" />
+                <input type="password" ref="loginpass" />
                 <br/>
-                <button type="button">Login</button>
+                <button type="button" onClick={this.login}>Login</button>
             </div>);
 
         return (
