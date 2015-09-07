@@ -1,11 +1,8 @@
 rabbitmq:
-  image: 
-web:
-  build: .
-  command: bundle exec rails s -p 3000 -b '0.0.0.0'
-  volumes:
-    - .:/myapp
+  image: rabbitmq:3.5.4-management
   ports:
-    - "3000:3000"
-  links:
-    - db
+    - "15672:15672"
+    - "5672:5672"
+  environment:
+    - RABBITMQ_DEFAULT_USER=muon
+    - RABBITMQ_DEFAULT_PASS=microservices
