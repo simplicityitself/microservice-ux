@@ -10,6 +10,8 @@ var muonCore = require("muon-core");
 var should = require("chai").should();
 var expect = require("chai").expect;
 
+require('../app.js');
+
 
 var amqpUrl = "amqp://muon:microservices@localhost";
 var serviceName = "testing";
