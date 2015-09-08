@@ -1,0 +1,4 @@
+muoncli:
+  image: simplicityitself/muoncli
+  ports:
+    - "2222:22"
