@@ -2,7 +2,7 @@
 #
 # VERSION               0.0.2
 
-FROM simplicityitself/stem
+FROM quay.io/simplicityitself/stem
 MAINTAINER Simplicity Itself
 
 RUN apt-get update && apt-get install -y openssh-server
