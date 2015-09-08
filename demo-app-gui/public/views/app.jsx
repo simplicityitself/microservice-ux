@@ -29,10 +29,10 @@ var UserForm = React.createClass({
         ohSnap('Yeeaahh! You are now registered.', 'green');
 
         $.ajax({
-            url: this.props.url + "/demoapp/add-user?item=user",
+            url: "/demoapp/add-user?item=user",
             contentType: 'application/x-www-form-urlencoded',
             type: 'POST',
-            data: payload,
+            form: payload,
             success: function() {
                 alert('success');
                 ohSnap('Yeeaahh! You are now registered.', 'green');
@@ -51,7 +51,7 @@ var UserForm = React.createClass({
                       };
 
         $.ajax({
-            url: this.props.url + "/demoapp/login-user",
+            url: "/demoapp/login-user",
             contentType: 'application/x-www-form-urlencoded',
             type: 'POST',
             data: payload,
@@ -105,7 +105,5 @@ var UserForm = React.createClass({
             </div>);
     }
 });
-
-
 
 React.render(<App/>, document.getElementById("content"));
