@@ -44,7 +44,7 @@ describe('Demo-user-service - Add User', function(){
 
   this.timeout(10000);
 
-  it('should correctly FAIL to add a user', function(done){
+  it('Step1 - should FAIL trying to add a bad user structure', function(done){
     //Add 1 User for test
     var thisEvent = {
                   "service-id": "muon://demoapp",
@@ -66,7 +66,7 @@ describe('Demo-user-service - Add User', function(){
     });
   });
 
-  it('should correctly add a user', function(done){
+  it('Step2 - should correctly add a user', function(done){
     //Add 1 User for test
     var thisEvent = {
                   "service-id": "muon://demoapp",
@@ -115,7 +115,7 @@ describe('Demo-user-service - User manipulation', function(){
     });
   });
 
-  it('should update a user', function(done){
+  it('Step3 - should update a user', function(done){
     //Update 1 User for test
     var thisEvent = {
                   "service-id": "muon://demoapp",
@@ -139,7 +139,7 @@ describe('Demo-user-service - User manipulation', function(){
     });
   });
 
-  it('should remove a user', function(done){
+  it('Step4 - should remove a user', function(done){
 
     //deactivate 1 User for test
     var thisEvent = {
@@ -166,7 +166,7 @@ describe('Demo-user-service - User manipulation', function(){
     });
   });
 
-  it('should fail gracefully when the wrong parameters are used to find a user', function(done){
+  it('Step5 - should fail gracefully when the wrong parameters are used to find a user', function(done){
     var params = {"wrong" : "thing"};
 
     // show user by username
@@ -179,7 +179,7 @@ describe('Demo-user-service - User manipulation', function(){
     }, params);
   });
 
-    it('should return an empty object when there is no match in find a user', function(done){
+    it('Step6 - should return an empty object when there is no match in find a user', function(done){
     var params = {"id" : "00000"};
 
     // show user by username
@@ -193,7 +193,7 @@ describe('Demo-user-service - User manipulation', function(){
     }, params);
   });
 
-  it('should find a user by username', function(done){
+  it('Step7 - should find a user by username', function(done){
     var params = {"username" : "hammondg"};
 
     // show user by username
@@ -225,7 +225,7 @@ describe('Demo-user-service - User manipulation', function(){
     }, params);
   });
 
-  it('should find a user by last name', function(done){
+  it('Step8 - should find a user by last name', function(done){
     var params = {"lastname" : "Haircut"};
 
     // show user by last name
@@ -258,7 +258,7 @@ describe('Demo-user-service - User manipulation', function(){
   });
 
 
-  it('should find a user by ID', function(done){
+  it('Step9 - should find a user by ID', function(done){
     var params = {"id" : "0003"};
 
     // show user by ID
@@ -291,7 +291,7 @@ describe('Demo-user-service - User manipulation', function(){
   });
 
 /*
-  it('should show all users', function(done){
+  it('Step10 - should show all users', function(done){
     var params = {};
 
     // show all users
@@ -326,13 +326,13 @@ describe('Demo-user-service - User manipulation', function(){
 
     }, params);
   });
-*/  
-  
+*/
+
 });
 
 
 describe('Demo-user-service - Access control', function(){
-  it('should login a user', function(done){
+  it('Step11 - should login a user', function(done){
 
      var thisEvent = {
                   "service-id": "muon://demoapp",
@@ -353,7 +353,7 @@ describe('Demo-user-service - Access control', function(){
     });
   });
 
-  it('should reject a bad password from a known user', function(done){
+  it('Step12 - should reject a bad password from a known user', function(done){
 
      var thisEvent = {
                   "service-id": "muon://demoapp",
@@ -374,7 +374,7 @@ describe('Demo-user-service - Access control', function(){
     });
   });
 
-  it('should reject and notify login attempts from inactive or removed users', function(done){
+  it('Step13 - should reject and notify login attempts from inactive or removed users', function(done){
 
      var thisEvent = {
                   "service-id": "muon://demoapp",
@@ -394,7 +394,7 @@ describe('Demo-user-service - Access control', function(){
     });
   });
 
-  it('should reject login attempts from unknown users', function(done){
+  it('Step14 - should reject login attempts from unknown users', function(done){
 
      var thisEvent = {
                   "service-id": "muon://demoapp",

@@ -39,7 +39,7 @@ function projection_check_and_install(projectionName, callback) {
 
 function install_projection(callback, value) {
 
-    //Needs fixing - ALWAYS installs projections - as value above in 'workflow()' is never overwritten
+    //TODO: Needs fixing - ALWAYS installs projections - as value above on line 36 'workflow()' is never overwritten
     logger.info(value.projectionExists);
 
     if (value.projectionExists === true) {
